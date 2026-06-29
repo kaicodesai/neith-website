@@ -11,6 +11,7 @@ const config: Config = {
         ink:   '#111010',
         paper: '#F0EDE6',
         brand: '#BE1F1A',
+        ember: '#C95A1A',
         slate: '#2D2925',
         dust:  '#ADA69B',
         bone:  '#D8D3C9',

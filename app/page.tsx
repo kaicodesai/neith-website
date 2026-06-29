@@ -18,20 +18,72 @@ function SectionLabel({ children, dark = false }: { children: string; dark?: boo
   )
 }
 
-// Small crossed-bow / diamond mark used at section breaks
+// Double-diamond break mark ◇—◇ based on Neith's tablet symbols
 function NeithBreakMark({ dark = false }: { dark?: boolean }) {
   return (
     <svg
-      viewBox="0 0 20 26"
+      viewBox="0 0 52 18"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={`w-4 h-auto ${dark ? 'text-dust/40' : 'text-dust'}`}
+      className={`w-10 h-auto ${dark ? 'text-dust/40' : 'text-dust'}`}
       aria-hidden="true"
     >
-      <polygon points="10,1 19,10 10,19 1,10" stroke="currentColor" strokeWidth="1.4" />
-      <polygon points="10,5 15,10 10,15 5,10" stroke="currentColor" strokeWidth="0.7" />
-      <circle cx="10" cy="10" r="1.5" fill="currentColor" />
-      <line x1="10" y1="19" x2="10" y2="25.5" stroke="currentColor" strokeWidth="0.9" />
+      <polygon points="9,9 15,3 21,9 15,15" stroke="currentColor" strokeWidth="1.3" />
+      <line x1="21" y1="9" x2="31" y2="9" stroke="currentColor" strokeWidth="0.8" />
+      <polygon points="31,9 37,3 43,9 37,15" stroke="currentColor" strokeWidth="1.3" />
+    </svg>
+  )
+}
+
+// Pinwheel bloom for corner decoration — all arcs, no sharp angles
+function CornerBloom({ className }: { className?: string }) {
+  const arms = 12
+  return (
+    <svg
+      viewBox="0 0 200 200"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden="true"
+    >
+      {Array.from({ length: arms }).map((_, i) => {
+        const angle = (i * (360 / arms) * Math.PI) / 180
+        return (
+          <line
+            key={i}
+            x1="100" y1="100"
+            x2={100 + 92 * Math.cos(angle)}
+            y2={100 + 92 * Math.sin(angle)}
+            stroke="currentColor" strokeWidth="0.9"
+          />
+        )
+      })}
+      <circle cx="100" cy="100" r="32" stroke="currentColor" strokeWidth="0.7" />
+      <circle cx="100" cy="100" r="60" stroke="currentColor" strokeWidth="0.7" />
+      <circle cx="100" cy="100" r="88" stroke="currentColor" strokeWidth="0.7" />
+      <circle cx="100" cy="100" r="3.5" fill="currentColor" />
+    </svg>
+  )
+}
+
+// Bow-and-arrow icon for the CTA button (Neith / Pinaki reference)
+function BowArrowIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 36 18"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden="true"
+    >
+      {/* Bow arc */}
+      <path d="M 5 2 Q 0 9 5 16" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+      {/* Bowstring */}
+      <line x1="5" y1="2" x2="5" y2="16" stroke="currentColor" strokeWidth="0.8" opacity="0.6" />
+      {/* Arrow shaft */}
+      <line x1="5" y1="9" x2="28" y2="9" stroke="currentColor" strokeWidth="1" />
+      {/* Arrowhead */}
+      <path d="M 25 5.5 L 31 9 L 25 12.5" stroke="currentColor" strokeWidth="1.2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
 }
@@ -93,10 +145,14 @@ function OrbWeaveSVG() {
 function Hero() {
   return (
     <section
-      className="min-h-screen flex flex-col justify-center pt-24 pb-20"
+      className="relative min-h-screen flex flex-col justify-center pt-24 pb-20 overflow-hidden"
       aria-label="Introduction"
     >
-      <div className="max-w-7xl mx-auto w-full px-6 lg:px-12">
+      {/* Corner bloom decorations */}
+      <CornerBloom className="absolute -top-16 -left-16 w-72 h-72 text-brand opacity-[0.12] pointer-events-none" />
+      <CornerBloom className="absolute -top-16 -right-16 w-72 h-72 text-ember opacity-[0.10] pointer-events-none" />
+
+      <div className="relative max-w-7xl mx-auto w-full px-6 lg:px-12">
         {/* Section marker */}
         <div className="flex items-center gap-4 mb-10 md:mb-14">
           <span className="font-display text-xs text-dust tracking-label uppercase">
@@ -107,7 +163,7 @@ function Hero() {
 
         {/* Headline */}
         <h1 className="font-display font-bold text-ink text-hero max-w-5xl mb-0">
-          We build intelligent
+          We weave intelligent
           <br className="hidden sm:block" /> business systems.
         </h1>
 
@@ -117,22 +173,23 @@ function Hero() {
         {/* Subhead + CTA row */}
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 lg:gap-16">
           <p className="font-body text-lg md:text-xl text-slate leading-relaxed max-w-2xl">
-            The manual layer between your tools, your team, and your growth.
+            We eliminate the Manual Layer between your tools, your team, and your growth.
             <br className="hidden md:block" />
             <span className="text-ink font-medium">
-              We eliminate it. Production-grade. Documented. Done.
+              Production-grade. Documented. Done.
             </span>
           </p>
 
           <a
             href="#contact"
-            className="shrink-0 font-body text-xs font-medium tracking-label uppercase
-                       bg-ink text-paper px-8 py-4
+            className="shrink-0 inline-flex items-center gap-3 font-body text-xs font-medium tracking-label uppercase
+                       bg-ink text-paper px-8 py-4 rounded-full
                        hover:bg-brand
                        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand
                        transition-colors duration-200 self-start lg:self-auto"
           >
-            Book a 30-minute call →
+            <BowArrowIcon className="w-8 h-auto" />
+            Book a 30-minute call
           </a>
         </div>
 
