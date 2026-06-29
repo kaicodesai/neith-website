@@ -37,20 +37,18 @@ function NeithBreakMark({ dark = false }: { dark?: boolean }) {
   )
 }
 
-// Orb-weaver web anchored at a corner — radial threads + concentric arcs
+// Orb-weaver web anchored at a corner — intricate radial threads + concentric arcs
 function CornerWeb({ flip = false, className }: { flip?: boolean; className?: string }) {
-  const threadAngles = [0, 12, 24, 36, 48, 62, 78, 90]
-  const arcRadii = [55, 110, 170, 235]
-  const size = 280
+  // 16 threads fanning across 100° for a dense, realistic web
+  const threadAngles = [0, 6, 13, 20, 27, 34, 41, 48, 55, 62, 68, 74, 80, 86, 93, 100]
+  const arcRadii = [38, 70, 105, 142, 182, 225, 272]
+  const size = 320
 
-  // For a top-right corner: origin is at (size, 0), threads go down-left
-  // For top-left: origin is at (0, 0), threads go down-right
   const ox = flip ? size : 0
   const oy = 0
-
+  const dir = flip ? -1 : 1
+  const baseAngle = flip ? 80 : 0
   const toRad = (deg: number) => (deg * Math.PI) / 180
-  // Threads fan from 0° to 90° (down), offset by 90° if flipped (pointing left)
-  const baseAngle = flip ? 90 : 0
 
   return (
     <svg
@@ -60,17 +58,17 @@ function CornerWeb({ flip = false, className }: { flip?: boolean; className?: st
       className={className}
       aria-hidden="true"
     >
-      {/* Radial threads from corner */}
+      {/* Radial silk threads */}
       {threadAngles.map((deg, i) => {
         const angle = toRad(baseAngle + deg)
-        const tx = ox + (flip ? -1 : 1) * arcRadii[arcRadii.length - 1] * 1.3 * Math.cos(angle)
-        const ty = oy + arcRadii[arcRadii.length - 1] * 1.3 * Math.sin(angle)
+        const len = arcRadii[arcRadii.length - 1] * 1.15
         return (
           <line
             key={i}
             x1={ox} y1={oy}
-            x2={tx} y2={ty}
-            stroke="currentColor" strokeWidth="0.7"
+            x2={ox + dir * len * Math.cos(angle)}
+            y2={oy + len * Math.sin(angle)}
+            stroke="currentColor" strokeWidth={i % 3 === 0 ? 0.9 : 0.55}
           />
         )
       })}
@@ -78,35 +76,46 @@ function CornerWeb({ flip = false, className }: { flip?: boolean; className?: st
       {/* Concentric capture-spiral arcs */}
       {arcRadii.map((r, ri) => {
         const startAngle = toRad(baseAngle)
-        const endAngle = toRad(baseAngle + 90)
-        const x1 = ox + (flip ? -1 : 1) * r * Math.cos(startAngle)
+        const endAngle = toRad(baseAngle + 100)
+        const x1 = ox + dir * r * Math.cos(startAngle)
         const y1 = oy + r * Math.sin(startAngle)
-        const x2 = ox + (flip ? -1 : 1) * r * Math.cos(endAngle)
+        const x2 = ox + dir * r * Math.cos(endAngle)
         const y2 = oy + r * Math.sin(endAngle)
         const sweepFlag = flip ? 0 : 1
         return (
           <path
             key={ri}
             d={`M ${x1} ${y1} A ${r} ${r} 0 0 ${sweepFlag} ${x2} ${y2}`}
-            stroke="currentColor" strokeWidth={ri === 0 ? 0.9 : 0.6}
+            stroke="currentColor"
+            strokeWidth={ri < 2 ? 0.9 : 0.6}
           />
         )
       })}
 
-      {/* Junction nodes at intersections */}
+      {/* Junction nodes at every thread × arc intersection */}
       {threadAngles.map((deg, ti) =>
         arcRadii.map((r, ri) => {
           const angle = toRad(baseAngle + deg)
-          const cx = ox + (flip ? -1 : 1) * r * Math.cos(angle)
+          const cx = ox + dir * r * Math.cos(angle)
           const cy = oy + r * Math.sin(angle)
           return (
-            <circle key={`${ti}-${ri}`} cx={cx} cy={cy} r={ri === 0 ? 1.8 : 1.2} fill="currentColor" />
+            <circle
+              key={`${ti}-${ri}`}
+              cx={cx} cy={cy}
+              r={ri < 2 ? 2 : 1.3}
+              fill="currentColor"
+            />
           )
         })
       )}
 
-      {/* Origin node */}
-      <circle cx={ox} cy={oy} r="2.5" fill="currentColor" />
+      {/* Spiral detail near origin */}
+      <path
+        d={`M ${ox + dir * 12} ${oy + 4} A 10 10 0 1 ${flip ? 0 : 1} ${ox + dir * 4} ${oy + 14}`}
+        stroke="currentColor" strokeWidth="0.7" opacity="0.7"
+      />
+
+      <circle cx={ox} cy={oy} r="3" fill="currentColor" />
     </svg>
   )
 }
@@ -150,49 +159,40 @@ function AnkhLetter({ className }: { className?: string }) {
   )
 }
 
-// Flower of Life — sacred geometry hero center element
-function FlowerOfLifeBg() {
-  const cx = 200
-  const cy = 200
-  const r = 52
-  // 7 circles: center + 6 at 60° intervals spaced r apart
-  const centers: [number, number][] = [
-    [cx, cy],
-    ...Array.from({ length: 6 }, (_, i) => {
-      const a = (i * 60 * Math.PI) / 180
-      return [cx + r * Math.cos(a), cy + r * Math.sin(a)] as [number, number]
-    }),
-  ]
-  // Second ring: 6 more at sqrt(3)*r distance, offset 30°
-  const ring2: [number, number][] = Array.from({ length: 6 }, (_, i) => {
-    const a = ((i * 60 + 30) * Math.PI) / 180
-    return [cx + r * Math.sqrt(3) * Math.cos(a), cy + r * Math.sqrt(3) * Math.sin(a)]
-  })
-  // Outer containing circle
-  const outerR = r * 2
-
+// Neith's shield with crossed arrows — sacred center element
+function NeithShieldBg() {
   return (
     <svg
-      viewBox="0 0 400 400"
+      viewBox="0 0 180 220"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
-      className="w-[min(60vw,520px)] h-auto pointer-events-none"
+      className="w-[min(38vw,340px)] h-auto pointer-events-none"
     >
-      {/* Outer boundary circle */}
-      <circle cx={cx} cy={cy} r={outerR} stroke="currentColor" strokeWidth="0.8" />
-      {/* Second ring circles */}
-      {ring2.map(([x, y], i) => (
-        <circle key={`r2-${i}`} cx={x} cy={y} r={r} stroke="currentColor" strokeWidth="0.5" opacity="0.5" />
-      ))}
-      {/* Core 7 circles */}
-      {centers.map(([x, y], i) => (
-        <circle key={i} cx={x} cy={y} r={r} stroke="currentColor" strokeWidth="0.9" />
-      ))}
-      {/* Seed of life inner detail — center dot + 6 small nodes */}
-      {centers.map(([x, y], i) => (
-        <circle key={`dot-${i}`} cx={x} cy={y} r={i === 0 ? 2.5 : 1.5} fill="currentColor" />
-      ))}
+      {/* Shield — outer */}
+      <path
+        d="M 90 8 C 140 8 168 36 168 80 C 168 140 90 212 90 212 C 90 212 12 140 12 80 C 12 36 40 8 90 8 Z"
+        stroke="currentColor" strokeWidth="1.4"
+      />
+      {/* Shield — inner inset */}
+      <path
+        d="M 90 24 C 130 24 152 48 152 82 C 152 132 90 196 90 196 C 90 196 28 132 28 82 C 28 48 50 24 90 24 Z"
+        stroke="currentColor" strokeWidth="0.7"
+      />
+
+      {/* Crossed arrows — NW to SE */}
+      <line x1="38" y1="48" x2="142" y2="152" stroke="currentColor" strokeWidth="1.1" />
+      <path d="M 130 145 L 142 152 L 135 140" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M 44 53 L 38 48 L 44 43" stroke="currentColor" strokeWidth="0.9" strokeLinecap="round" strokeLinejoin="round" />
+
+      {/* Crossed arrows — NE to SW */}
+      <line x1="142" y1="48" x2="38" y2="152" stroke="currentColor" strokeWidth="1.1" />
+      <path d="M 50 145 L 38 152 L 45 140" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M 136 53 L 142 48 L 136 43" stroke="currentColor" strokeWidth="0.9" strokeLinecap="round" strokeLinejoin="round" />
+
+      {/* Center node */}
+      <circle cx="90" cy="100" r="4" fill="currentColor" />
+      <circle cx="90" cy="100" r="9" stroke="currentColor" strokeWidth="0.8" />
     </svg>
   )
 }
@@ -257,13 +257,15 @@ function Hero() {
       className="relative min-h-screen flex flex-col justify-center pt-24 pb-20 overflow-hidden"
       aria-label="Introduction"
     >
-      {/* Corner orb-weaver webs */}
-      <CornerWeb className="absolute -top-4 -left-4 w-72 h-72 text-brand opacity-[0.14] pointer-events-none" />
-      <CornerWeb flip className="absolute -top-4 -right-4 w-72 h-72 text-ember opacity-[0.11] pointer-events-none" />
+      {/* Corner orb-weaver webs — large top, small bottom */}
+      <CornerWeb className="absolute -top-2 -left-2 w-80 h-80 text-brand opacity-[0.15] pointer-events-none" />
+      <CornerWeb flip className="absolute -top-2 -right-2 w-80 h-80 text-ember opacity-[0.12] pointer-events-none" />
+      <CornerWeb flip className="absolute -bottom-2 -left-2 w-44 h-44 text-brand opacity-[0.08] pointer-events-none rotate-[270deg]" />
+      <CornerWeb className="absolute -bottom-2 -right-2 w-44 h-44 text-ember opacity-[0.07] pointer-events-none rotate-[270deg]" />
 
-      {/* Flower of Life — sacred geometry center background */}
-      <div className="absolute inset-0 flex items-center justify-center opacity-[0.06] text-ink pointer-events-none">
-        <FlowerOfLifeBg />
+      {/* Neith shield — sacred center element */}
+      <div className="absolute inset-0 flex items-center justify-center opacity-[0.07] text-ink pointer-events-none">
+        <NeithShieldBg />
       </div>
 
       <div className="relative max-w-7xl mx-auto w-full px-6 lg:px-12">
