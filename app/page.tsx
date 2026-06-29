@@ -129,8 +129,8 @@ function LeopardSpot({ cx, cy, r, variant }: { cx: number; cy: number; r: number
 
 // Orb-weaver web with leopard-print junction nodes + color gradient
 function CornerWeb({ flip = false, className, gradientFrom = '#2A5C3F', gradientTo = '#C06044' }: { flip?: boolean; className?: string; gradientFrom?: string; gradientTo?: string }) {
-  const threadAngles = [0, 6, 13, 20, 27, 34, 41, 48, 55, 62, 68, 74, 80, 86, 93, 100]
-  const arcRadii = [38, 70, 105, 142, 182, 225, 272]
+  const threadAngles = [0, 14, 28, 42, 58, 74, 90]   // 7 threads, well-spaced
+  const arcRadii = [50, 100, 160, 230]                 // 4 rings, airy gaps
   const size = 320
   const gradId = `webGrad-${flip ? 'r' : 'l'}-${gradientFrom.replace('#','')}`
 
@@ -149,9 +149,10 @@ function CornerWeb({ flip = false, className, gradientFrom = '#2A5C3F', gradient
       aria-hidden="true"
     >
       <defs>
-        <linearGradient id={gradId} x1={flip ? '100%' : '0%'} y1="0%" x2={flip ? '0%' : '100%'} y2="100%">
+        <linearGradient id={gradId} gradientUnits="userSpaceOnUse"
+          x1={flip ? size : 0} y1="0" x2={flip ? 0 : size} y2={size}>
           <stop offset="0%"   stopColor={gradientFrom} stopOpacity="1" />
-          <stop offset="100%" stopColor={gradientTo}   stopOpacity="0.3" />
+          <stop offset="100%" stopColor={gradientTo}   stopOpacity="0.25" />
         </linearGradient>
       </defs>
       {/* Radial silk threads */}
@@ -188,18 +189,18 @@ function CornerWeb({ flip = false, className, gradientFrom = '#2A5C3F', gradient
         )
       })}
 
-      {/* Leopard-spot junction nodes */}
+      {/* Leopard-spot junction nodes — outer rings only to keep inner web clean */}
       {threadAngles.map((deg, ti) =>
         arcRadii.map((r, ri) => {
+          if (ri < 2) return null  // skip inner two rings
           const angle = toRad(baseAngle + deg)
           const cx = ox + dir * r * Math.cos(angle)
           const cy = oy + r * Math.sin(angle)
-          const spotR = ri < 2 ? 3.5 : 2.5
           return (
             <LeopardSpot
               key={`${ti}-${ri}`}
               cx={cx} cy={cy}
-              r={spotR}
+              r={ri === 2 ? 3.5 : 4.5}
               variant={(ti * 3 + ri * 5) % 4}
             />
           )
