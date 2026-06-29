@@ -258,10 +258,10 @@ function Hero() {
       aria-label="Introduction"
     >
       {/* Corner orb-weaver webs — large top, small bottom */}
-      <CornerWeb className="absolute -top-2 -left-2 w-80 h-80 text-brand opacity-[0.15] pointer-events-none" />
-      <CornerWeb flip className="absolute -top-2 -right-2 w-80 h-80 text-ember opacity-[0.12] pointer-events-none" />
-      <CornerWeb flip className="absolute -bottom-2 -left-2 w-44 h-44 text-brand opacity-[0.08] pointer-events-none rotate-[270deg]" />
-      <CornerWeb className="absolute -bottom-2 -right-2 w-44 h-44 text-ember opacity-[0.07] pointer-events-none rotate-[270deg]" />
+      <CornerWeb className="absolute -top-2 -left-2 w-80 h-80 text-brand opacity-[0.28] pointer-events-none" />
+      <CornerWeb flip className="absolute -top-2 -right-2 w-80 h-80 text-ember opacity-[0.24] pointer-events-none" />
+      <CornerWeb flip className="absolute -bottom-2 -left-2 w-44 h-44 text-brand opacity-[0.16] pointer-events-none rotate-[270deg]" />
+      <CornerWeb className="absolute -bottom-2 -right-2 w-44 h-44 text-ember opacity-[0.14] pointer-events-none rotate-[270deg]" />
 
       {/* Neith shield — sacred center element */}
       <div className="absolute inset-0 flex items-center justify-center opacity-[0.07] text-ink pointer-events-none">
