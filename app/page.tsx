@@ -88,6 +88,57 @@ function BowArrowIcon({ className }: { className?: string }) {
   )
 }
 
+// Ankh glyph — replaces the "t" in Neith inline
+function AnkhLetter({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 14 22"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={`inline-block h-[1em] w-auto align-middle mx-px ${className ?? ''}`}
+      aria-hidden="true"
+    >
+      <ellipse cx="7" cy="5.5" rx="4.5" ry="5" stroke="currentColor" strokeWidth="1.3" />
+      <line x1="7" y1="10.5" x2="7" y2="21" stroke="currentColor" strokeWidth="1.3" />
+      <line x1="1" y1="13.5" x2="13" y2="13.5" stroke="currentColor" strokeWidth="1.3" />
+    </svg>
+  )
+}
+
+// Neith's crossed-arrows shield — ghosted hero center element
+function NeithShieldBg() {
+  return (
+    <svg
+      viewBox="0 0 160 200"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      className="absolute inset-0 m-auto w-[min(55vw,480px)] h-auto pointer-events-none"
+    >
+      {/* Shield outline — rounded rectangle */}
+      <rect x="12" y="12" width="136" height="176" rx="68" ry="40" stroke="currentColor" strokeWidth="1.5" />
+      <rect x="24" y="24" width="112" height="152" rx="56" ry="32" stroke="currentColor" strokeWidth="0.7" />
+
+      {/* Crossed arrows — NW to SE */}
+      <line x1="35" y1="45" x2="125" y2="155" stroke="currentColor" strokeWidth="1.2" />
+      {/* Arrowhead NW→SE (bottom-right tip) */}
+      <path d="M 113 148 L 125 155 L 118 143" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Nock NW end (top-left) */}
+      <path d="M 41 50 L 35 45 L 40 40" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+
+      {/* Crossed arrows — NE to SW */}
+      <line x1="125" y1="45" x2="35" y2="155" stroke="currentColor" strokeWidth="1.2" />
+      {/* Arrowhead NE→SW (bottom-left tip) */}
+      <path d="M 47 148 L 35 155 L 42 143" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Nock NE end (top-right) */}
+      <path d="M 119 50 L 125 45 L 120 40" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+
+      {/* Center dot at crossing */}
+      <circle cx="80" cy="100" r="3" fill="currentColor" />
+    </svg>
+  )
+}
+
 // ─── Orb-weave background SVG (founder section only) ────────────────────────
 
 function OrbWeaveSVG() {
@@ -151,6 +202,11 @@ function Hero() {
       {/* Corner bloom decorations */}
       <CornerBloom className="absolute -top-16 -left-16 w-72 h-72 text-brand opacity-[0.12] pointer-events-none" />
       <CornerBloom className="absolute -top-16 -right-16 w-72 h-72 text-ember opacity-[0.10] pointer-events-none" />
+
+      {/* Neith crossed-arrows shield — centered background volume */}
+      <div className="absolute inset-0 flex items-center justify-center opacity-[0.055] text-ink pointer-events-none">
+        <NeithShieldBg />
+      </div>
 
       <div className="relative max-w-7xl mx-auto w-full px-6 lg:px-12">
         {/* Section marker */}
@@ -504,7 +560,7 @@ function Footer() {
               <line x1="14" y1="26" x2="14" y2="35" stroke="currentColor" strokeWidth="1" />
             </svg>
             <span className="font-body font-medium text-paper/70 tracking-label text-xs uppercase">
-              Neith AI
+              Nei<AnkhLetter />h AI
             </span>
           </div>
 
