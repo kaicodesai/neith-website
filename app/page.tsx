@@ -5,10 +5,10 @@ import ContactForm from '@/components/ContactForm'
 function Rule({ dark = false }: { dark?: boolean }) {
   const stroke = dark ? 'rgba(240,237,230,0.18)' : '#C8C2B8'
   return (
-    <svg viewBox="0 0 1200 32" preserveAspectRatio="none" className="w-full h-4" aria-hidden="true">
+    <svg viewBox="0 0 1200 40" preserveAspectRatio="none" className="w-full h-6" aria-hidden="true">
       <path
-        d="M0 16 C100 4, 200 28, 300 16 C400 4, 500 28, 600 16 C700 4, 800 28, 900 16 C1000 4, 1100 28, 1200 16"
-        stroke={stroke} strokeWidth="1.2" fill="none" strokeLinecap="round"
+        d="M0 20 C200 2, 400 38, 600 20 C800 2, 1000 38, 1200 20"
+        stroke={stroke} strokeWidth="1.6" fill="none" strokeLinecap="round"
       />
     </svg>
   )
@@ -242,7 +242,7 @@ function BowArrowIcon({ className }: { className?: string }) {
       {/* Arrow shaft */}
       <line x1="5" y1="9" x2="28" y2="9" stroke="currentColor" strokeWidth="1" />
       {/* Arrowhead */}
-      <path d="M 25 5.5 L 31 9 L 25 12.5" stroke="currentColor" strokeWidth="1.2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M 25 5.5 L 31 9 L 25 12.5" stroke="currentColor" strokeWidth="1.6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
 }
@@ -378,7 +378,7 @@ function Hero() {
           <span className="font-display text-xs text-dust tracking-label uppercase">
             01
           </span>
-          <div className="flex-1 overflow-hidden"><svg viewBox="0 0 400 32" preserveAspectRatio="none" className="w-full h-4" aria-hidden="true"><path d="M0 16 C33 4,67 28,100 16 C133 4,167 28,200 16 C233 4,267 28,300 16 C333 4,367 28,400 16" stroke="#C8C2B8" strokeWidth="1.2" fill="none" strokeLinecap="round" /></svg></div>
+          <div className="flex-1 overflow-hidden"><svg viewBox="0 0 400 40" preserveAspectRatio="none" className="w-full h-6" aria-hidden="true"><path d="M0 20 C67 2,133 38,200 20 C267 2,333 38,400 20" stroke="#C8C2B8" strokeWidth="1.6" fill="none" strokeLinecap="round" /></svg></div>
         </div>
 
         {/* Headline */}
@@ -389,8 +389,8 @@ function Hero() {
 
         {/* Wavy rule below headline */}
         <div className="my-8 md:my-12">
-          <svg viewBox="0 0 1200 32" preserveAspectRatio="none" className="w-full h-4" aria-hidden="true">
-            <path d="M0 16 C100 4,200 28,300 16 C400 4,500 28,600 16 C700 4,800 28,900 16 C1000 4,1100 28,1200 16" stroke="#C8C2B8" strokeWidth="1.2" fill="none" strokeLinecap="round" />
+          <svg viewBox="0 0 1200 40" preserveAspectRatio="none" className="w-full h-6" aria-hidden="true">
+            <path d="M0 20 C200 2,400 38,600 20 C800 2,1000 38,1200 20" stroke="#C8C2B8" strokeWidth="1.6" fill="none" strokeLinecap="round" />
           </svg>
         </div>
 
@@ -405,8 +405,8 @@ function Hero() {
 
         {/* Wavy bottom rule */}
         <div className="mt-16 md:mt-24">
-          <svg viewBox="0 0 1200 32" preserveAspectRatio="none" className="w-full h-4" aria-hidden="true">
-            <path d="M0 16 C100 4,200 28,300 16 C400 4,500 28,600 16 C700 4,800 28,900 16 C1000 4,1100 28,1200 16" stroke="#C8C2B8" strokeWidth="1.2" fill="none" strokeLinecap="round" />
+          <svg viewBox="0 0 1200 40" preserveAspectRatio="none" className="w-full h-6" aria-hidden="true">
+            <path d="M0 20 C200 2,400 38,600 20 C800 2,1000 38,1200 20" stroke="#C8C2B8" strokeWidth="1.6" fill="none" strokeLinecap="round" />
           </svg>
         </div>
 
@@ -468,7 +468,7 @@ function Services() {
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="flex items-center gap-4 mb-0">
           <SectionLabel>What we build</SectionLabel>
-          <div className="flex-1 overflow-hidden"><svg viewBox="0 0 400 32" preserveAspectRatio="none" className="w-full h-4" aria-hidden="true"><path d="M0 16 C33 4,67 28,100 16 C133 4,167 28,200 16 C233 4,267 28,300 16 C333 4,367 28,400 16" stroke="#C8C2B8" strokeWidth="1.2" fill="none" strokeLinecap="round" /></svg></div>
+          <div className="flex-1 overflow-hidden"><svg viewBox="0 0 400 40" preserveAspectRatio="none" className="w-full h-6" aria-hidden="true"><path d="M0 20 C67 2,133 38,200 20 C267 2,333 38,400 20" stroke="#C8C2B8" strokeWidth="1.6" fill="none" strokeLinecap="round" /></svg></div>
         </div>
 
         {/* Service registers */}
@@ -530,7 +530,7 @@ function Founders() {
         {/* Section label */}
         <div className="flex items-center gap-4 mb-12 md:mb-16">
           <SectionLabel dark>Built by</SectionLabel>
-          <div className="flex-1 overflow-hidden"><svg viewBox="0 0 400 32" preserveAspectRatio="none" className="w-full h-4" aria-hidden="true"><path d="M0 16 C33 4,67 28,100 16 C133 4,167 28,200 16 C233 4,267 28,300 16 C333 4,367 28,400 16" stroke="rgba(240,237,230,0.18)" strokeWidth="1.2" fill="none" strokeLinecap="round" /></svg></div>
+          <div className="flex-1 overflow-hidden"><svg viewBox="0 0 400 40" preserveAspectRatio="none" className="w-full h-6" aria-hidden="true"><path d="M0 20 C67 2,133 38,200 20 C267 2,333 38,400 20" stroke="rgba(240,237,230,0.18)" strokeWidth="1.6" fill="none" strokeLinecap="round" /></svg></div>
           <NeithBreakMark dark />
         </div>
 
@@ -546,7 +546,7 @@ function Founders() {
           </blockquote>
         </div>
 
-        <svg viewBox="0 0 1200 32" preserveAspectRatio="none" className="w-full h-4 mb-12 md:mb-16" aria-hidden="true"><path d="M0 16 C100 4,200 28,300 16 C400 4,500 28,600 16 C700 4,800 28,900 16 C1000 4,1100 28,1200 16" stroke="rgba(240,237,230,0.18)" strokeWidth="1.2" fill="none" strokeLinecap="round" /></svg>
+        <svg viewBox="0 0 1200 40" preserveAspectRatio="none" className="w-full h-6 mb-12 md:mb-16" aria-hidden="true"><path d="M0 20 C200 2,400 38,600 20 C800 2,1000 38,1200 20" stroke="rgba(240,237,230,0.18)" strokeWidth="1.6" fill="none" strokeLinecap="round" /></svg>
 
         {/* Founder body copy */}
         <div className="grid md:grid-cols-2 gap-12 lg:gap-20 mb-16">
@@ -569,7 +569,7 @@ function Founders() {
               <p className="font-body text-xs tracking-label uppercase text-dust/60 mb-3">
                 Founder — Operations
               </p>
-              <svg viewBox="0 0 400 32" preserveAspectRatio="none" className="w-full h-4 mb-3" aria-hidden="true"><path d="M0 16 C33 4,67 28,100 16 C133 4,167 28,200 16 C233 4,267 28,300 16 C333 4,367 28,400 16" stroke="rgba(240,237,230,0.18)" strokeWidth="1.2" fill="none" strokeLinecap="round" /></svg>
+              <svg viewBox="0 0 400 40" preserveAspectRatio="none" className="w-full h-6 mb-3" aria-hidden="true"><path d="M0 20 C67 2,133 38,200 20 C267 2,333 38,400 20" stroke="rgba(240,237,230,0.18)" strokeWidth="1.6" fill="none" strokeLinecap="round" /></svg>
               <p className="font-body text-sm text-paper/70 leading-relaxed">
                 Enterprise ecommerce at scale: Amazon Vendor Central, Walmart
                 Connect, Target Plus. The kind of operations where a single
@@ -582,7 +582,7 @@ function Founders() {
               <p className="font-body text-xs tracking-label uppercase text-dust/60 mb-3">
                 Founder — Product and Platform
               </p>
-              <svg viewBox="0 0 400 32" preserveAspectRatio="none" className="w-full h-4 mb-3" aria-hidden="true"><path d="M0 16 C33 4,67 28,100 16 C133 4,167 28,200 16 C233 4,267 28,300 16 C333 4,367 28,400 16" stroke="rgba(240,237,230,0.18)" strokeWidth="1.2" fill="none" strokeLinecap="round" /></svg>
+              <svg viewBox="0 0 400 40" preserveAspectRatio="none" className="w-full h-6 mb-3" aria-hidden="true"><path d="M0 20 C67 2,133 38,200 20 C267 2,333 38,400 20" stroke="rgba(240,237,230,0.18)" strokeWidth="1.6" fill="none" strokeLinecap="round" /></svg>
               <p className="font-body text-sm text-paper/70 leading-relaxed">
                 Product and platform work inside Lyft, SurveyMonkey, and
                 Google. Systems built to operate at scale, not to impress on a
@@ -592,7 +592,7 @@ function Founders() {
           </div>
         </div>
 
-        <svg viewBox="0 0 1200 32" preserveAspectRatio="none" className="w-full h-4" aria-hidden="true"><path d="M0 16 C100 4,200 28,300 16 C400 4,500 28,600 16 C700 4,800 28,900 16 C1000 4,1100 28,1200 16" stroke="rgba(240,237,230,0.18)" strokeWidth="1.2" fill="none" strokeLinecap="round" /></svg>
+        <svg viewBox="0 0 1200 40" preserveAspectRatio="none" className="w-full h-6" aria-hidden="true"><path d="M0 20 C200 2,400 38,600 20 C800 2,1000 38,1200 20" stroke="rgba(240,237,230,0.18)" strokeWidth="1.6" fill="none" strokeLinecap="round" /></svg>
 
         {/* Bottom note */}
         <div className="mt-10 flex items-center gap-4">
@@ -637,7 +637,7 @@ function Process() {
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="flex items-center gap-4 mb-0">
           <SectionLabel>How we work</SectionLabel>
-          <div className="flex-1 overflow-hidden"><svg viewBox="0 0 400 32" preserveAspectRatio="none" className="w-full h-4" aria-hidden="true"><path d="M0 16 C33 4,67 28,100 16 C133 4,167 28,200 16 C233 4,267 28,300 16 C333 4,367 28,400 16" stroke="#C8C2B8" strokeWidth="1.2" fill="none" strokeLinecap="round" /></svg></div>
+          <div className="flex-1 overflow-hidden"><svg viewBox="0 0 400 40" preserveAspectRatio="none" className="w-full h-6" aria-hidden="true"><path d="M0 20 C67 2,133 38,200 20 C267 2,333 38,400 20" stroke="#C8C2B8" strokeWidth="1.6" fill="none" strokeLinecap="round" /></svg></div>
         </div>
 
         {/* Step registers */}
@@ -682,7 +682,7 @@ function Contact() {
         {/* Section header */}
         <div className="flex items-center gap-4 mb-12 md:mb-16">
           <SectionLabel>Work with us</SectionLabel>
-          <div className="flex-1 overflow-hidden"><svg viewBox="0 0 400 32" preserveAspectRatio="none" className="w-full h-4" aria-hidden="true"><path d="M0 16 C33 4,67 28,100 16 C133 4,167 28,200 16 C233 4,267 28,300 16 C333 4,367 28,400 16" stroke="#C8C2B8" strokeWidth="1.2" fill="none" strokeLinecap="round" /></svg></div>
+          <div className="flex-1 overflow-hidden"><svg viewBox="0 0 400 40" preserveAspectRatio="none" className="w-full h-6" aria-hidden="true"><path d="M0 20 C67 2,133 38,200 20 C267 2,333 38,400 20" stroke="#C8C2B8" strokeWidth="1.6" fill="none" strokeLinecap="round" /></svg></div>
         </div>
 
         {/* Headline */}
@@ -759,16 +759,36 @@ function Footer() {
   )
 }
 
+// Half-crescent that straddles a section boundary, softening the hard edge
+function CrescentDivider({ color = '#2A5C3F' }: { color?: string }) {
+  return (
+    <div className="relative h-0 z-20" aria-hidden="true">
+      <svg
+        viewBox="0 0 100 50"
+        className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 w-20 h-10 md:w-28 md:h-14"
+      >
+        <path d="M5 25 A45 45 0 0 1 95 25" stroke={color} strokeWidth="2" fill="none" strokeLinecap="round" />
+        <circle cx="50" cy="25" r="2" fill={color} />
+      </svg>
+    </div>
+  )
+}
+
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function Page() {
   return (
     <>
       <Hero />
+      <CrescentDivider color="#2A5C3F" />
       <Services />
+      <CrescentDivider color="#C06044" />
       <Founders />
+      <CrescentDivider color="#F0EDE6" />
       <Process />
+      <CrescentDivider color="#2A5C3F" />
       <Contact />
+      <CrescentDivider color="#C06044" />
       <Footer />
     </>
   )
