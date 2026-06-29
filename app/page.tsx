@@ -37,9 +37,43 @@ function NeithBreakMark({ dark = false }: { dark?: boolean }) {
   )
 }
 
-// Orb-weaver web anchored at a corner — intricate radial threads + concentric arcs
+// Leopard spot — golden center + dark irregular surrounding blobs, 4 organic variants
+function LeopardSpot({ cx, cy, r, variant }: { cx: number; cy: number; r: number; variant: number }) {
+  // Each variant has different blob angles + sizes to look organic
+  const configs = [
+    { blobs: [{ a: 10, rx: 1.1, ry: 0.7 }, { a: 140, rx: 0.9, ry: 1.1 }, { a: 260, rx: 1.2, ry: 0.8 }] },
+    { blobs: [{ a: 50, rx: 1.0, ry: 0.6 }, { a: 155, rx: 1.3, ry: 0.9 }, { a: 250, rx: 0.8, ry: 1.1 }, { a: 330, rx: 1.0, ry: 0.7 }] },
+    { blobs: [{ a: 20, rx: 1.2, ry: 0.8 }, { a: 130, rx: 0.9, ry: 1.0 }, { a: 230, rx: 1.1, ry: 0.6 }, { a: 310, rx: 0.8, ry: 1.2 }] },
+    { blobs: [{ a: 70, rx: 1.1, ry: 0.9 }, { a: 190, rx: 1.3, ry: 0.7 }, { a: 300, rx: 0.9, ry: 1.1 }] },
+  ]
+  const { blobs } = configs[variant % 4]
+  const toRad = (deg: number) => (deg * Math.PI) / 180
+  const dr = r * 1.5
+
+  return (
+    <g>
+      {blobs.map(({ a, rx, ry }, i) => {
+        const rad = toRad(a)
+        const bx = cx + dr * Math.cos(rad)
+        const by = cy + dr * Math.sin(rad)
+        return (
+          <ellipse
+            key={i}
+            cx={bx} cy={by}
+            rx={r * rx} ry={r * ry}
+            transform={`rotate(${a + 45}, ${bx}, ${by})`}
+            fill="#1C0D00"
+          />
+        )
+      })}
+      {/* Golden tan center */}
+      <circle cx={cx} cy={cy} r={r * 0.85} fill="#C8860A" />
+    </g>
+  )
+}
+
+// Orb-weaver web with leopard-print junction nodes
 function CornerWeb({ flip = false, className }: { flip?: boolean; className?: string }) {
-  // 16 threads fanning across 100° for a dense, realistic web
   const threadAngles = [0, 6, 13, 20, 27, 34, 41, 48, 55, 62, 68, 74, 80, 86, 93, 100]
   const arcRadii = [38, 70, 105, 142, 182, 225, 272]
   const size = 320
@@ -92,18 +126,19 @@ function CornerWeb({ flip = false, className }: { flip?: boolean; className?: st
         )
       })}
 
-      {/* Junction nodes at every thread × arc intersection */}
+      {/* Leopard-spot junction nodes */}
       {threadAngles.map((deg, ti) =>
         arcRadii.map((r, ri) => {
           const angle = toRad(baseAngle + deg)
           const cx = ox + dir * r * Math.cos(angle)
           const cy = oy + r * Math.sin(angle)
+          const spotR = ri < 2 ? 3.5 : 2.5
           return (
-            <circle
+            <LeopardSpot
               key={`${ti}-${ri}`}
               cx={cx} cy={cy}
-              r={ri < 2 ? 2 : 1.3}
-              fill="currentColor"
+              r={spotR}
+              variant={(ti * 3 + ri * 5) % 4}
             />
           )
         })
@@ -114,8 +149,7 @@ function CornerWeb({ flip = false, className }: { flip?: boolean; className?: st
         d={`M ${ox + dir * 12} ${oy + 4} A 10 10 0 1 ${flip ? 0 : 1} ${ox + dir * 4} ${oy + 14}`}
         stroke="currentColor" strokeWidth="0.7" opacity="0.7"
       />
-
-      <circle cx={ox} cy={oy} r="3" fill="currentColor" />
+      <circle cx={ox} cy={oy} r="4" fill="#C8860A" />
     </svg>
   )
 }
