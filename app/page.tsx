@@ -3,7 +3,15 @@ import ContactForm from '@/components/ContactForm'
 // ─── Shared primitives ────────────────────────────────────────────────────────
 
 function Rule({ dark = false }: { dark?: boolean }) {
-  return <div className={dark ? 'rule-ink' : 'rule'} />
+  const stroke = dark ? 'rgba(240,237,230,0.15)' : '#D8D3C9'
+  return (
+    <svg viewBox="0 0 1200 10" preserveAspectRatio="none" className="w-full h-2.5" aria-hidden="true">
+      <path
+        d="M0 5 C150 2,250 8,400 5 C550 2,650 8,800 5 C950 2,1050 8,1200 5"
+        stroke={stroke} strokeWidth="1" fill="none"
+      />
+    </svg>
+  )
 }
 
 function SectionLabel({ children, dark = false }: { children: string; dark?: boolean }) {
@@ -353,9 +361,9 @@ function Hero() {
       className="relative min-h-screen flex flex-col justify-center pt-24 pb-20 overflow-hidden"
       aria-label="Introduction"
     >
-      {/* Corner webs — green bleeds from left, terracotta from right, blend at center */}
-      <CornerWeb className="absolute -top-2 -left-2 w-80 h-80 opacity-[0.7] pointer-events-none" gradientFrom="#2A5C3F" gradientTo="#C06044" />
-      <CornerWeb flip className="absolute -top-2 -right-2 w-80 h-80 opacity-[0.6] pointer-events-none" gradientFrom="#C06044" gradientTo="#2A5C3F" />
+      {/* Corner webs — sit below fixed nav (top-16), extend further into page */}
+      <CornerWeb className="absolute top-16 -left-2 w-[28rem] h-[28rem] opacity-[0.7] pointer-events-none" gradientFrom="#2A5C3F" gradientTo="#C06044" />
+      <CornerWeb flip className="absolute top-16 -right-2 w-[28rem] h-[28rem] opacity-[0.6] pointer-events-none" gradientFrom="#C06044" gradientTo="#2A5C3F" />
 
       {/* Large sweeping web from bottom-right */}
       <CornerWeb flip className="absolute -bottom-24 -right-24 w-[72vw] h-[72vw] opacity-[0.08] pointer-events-none" gradientFrom="#2A5C3F" gradientTo="#C06044" />
@@ -370,7 +378,7 @@ function Hero() {
           <span className="font-display text-xs text-dust tracking-label uppercase">
             01
           </span>
-          <div className="flex-1 rule" />
+          <div className="flex-1 overflow-hidden"><svg viewBox="0 0 400 10" preserveAspectRatio="none" className="w-full h-2.5" aria-hidden="true"><path d="M0 5 C50 2,83 8,133 5 C183 2,217 8,267 5 C317 2,350 8,400 5" stroke="#D8D3C9" strokeWidth="1" fill="none" /></svg></div>
         </div>
 
         {/* Headline */}
@@ -379,8 +387,12 @@ function Hero() {
           <br className="hidden sm:block" /> business systems.
         </h1>
 
-        {/* Rule below headline */}
-        <div className="rule my-8 md:my-12" />
+        {/* Wavy rule below headline */}
+        <div className="my-8 md:my-12">
+          <svg viewBox="0 0 1200 10" preserveAspectRatio="none" className="w-full h-2.5" aria-hidden="true">
+            <path d="M0 5 C150 2,250 8,400 5 C550 2,650 8,800 5 C950 2,1050 8,1200 5" stroke="#D8D3C9" strokeWidth="1" fill="none" />
+          </svg>
+        </div>
 
         {/* Subhead */}
         <p className="font-body text-lg md:text-xl text-slate leading-relaxed max-w-2xl">
@@ -391,8 +403,12 @@ function Hero() {
           </span>
         </p>
 
-        {/* Bottom rule */}
-        <div className="rule mt-16 md:mt-24" />
+        {/* Wavy bottom rule */}
+        <div className="mt-16 md:mt-24">
+          <svg viewBox="0 0 1200 10" preserveAspectRatio="none" className="w-full h-2.5" aria-hidden="true">
+            <path d="M0 5 C150 2,250 8,400 5 C550 2,650 8,800 5 C950 2,1050 8,1200 5" stroke="#D8D3C9" strokeWidth="1" fill="none" />
+          </svg>
+        </div>
 
         {/* Specificity strip */}
         <div className="mt-6 flex flex-wrap gap-x-8 gap-y-2">
@@ -452,7 +468,7 @@ function Services() {
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="flex items-center gap-4 mb-0">
           <SectionLabel>What we build</SectionLabel>
-          <div className="flex-1 rule" />
+          <div className="flex-1 overflow-hidden"><svg viewBox="0 0 400 10" preserveAspectRatio="none" className="w-full h-2.5" aria-hidden="true"><path d="M0 5 C50 2,83 8,133 5 C183 2,217 8,267 5 C317 2,350 8,400 5" stroke="#D8D3C9" strokeWidth="1" fill="none" /></svg></div>
         </div>
 
         {/* Service registers */}
@@ -514,7 +530,7 @@ function Founders() {
         {/* Section label */}
         <div className="flex items-center gap-4 mb-12 md:mb-16">
           <SectionLabel dark>Built by</SectionLabel>
-          <div className="flex-1 rule-ink" />
+          <div className="flex-1 overflow-hidden"><svg viewBox="0 0 400 10" preserveAspectRatio="none" className="w-full h-2.5" aria-hidden="true"><path d="M0 5 C50 2,83 8,133 5 C183 2,217 8,267 5 C317 2,350 8,400 5" stroke="rgba(240,237,230,0.15)" strokeWidth="1" fill="none" /></svg></div>
           <NeithBreakMark dark />
         </div>
 
@@ -530,7 +546,7 @@ function Founders() {
           </blockquote>
         </div>
 
-        <div className="rule-ink mb-12 md:mb-16" />
+        <svg viewBox="0 0 1200 10" preserveAspectRatio="none" className="w-full h-2.5 mb-12 md:mb-16" aria-hidden="true"><path d="M0 5 C150 2,250 8,400 5 C550 2,650 8,800 5 C950 2,1050 8,1200 5" stroke="rgba(240,237,230,0.15)" strokeWidth="1" fill="none" /></svg>
 
         {/* Founder body copy */}
         <div className="grid md:grid-cols-2 gap-12 lg:gap-20 mb-16">
@@ -553,7 +569,7 @@ function Founders() {
               <p className="font-body text-xs tracking-label uppercase text-dust/60 mb-3">
                 Founder — Operations
               </p>
-              <div className="rule-ink mb-3" />
+              <svg viewBox="0 0 400 10" preserveAspectRatio="none" className="w-full h-2.5 mb-3" aria-hidden="true"><path d="M0 5 C50 2,83 8,133 5 C183 2,217 8,267 5 C317 2,350 8,400 5" stroke="rgba(240,237,230,0.15)" strokeWidth="1" fill="none" /></svg>
               <p className="font-body text-sm text-paper/70 leading-relaxed">
                 Enterprise ecommerce at scale: Amazon Vendor Central, Walmart
                 Connect, Target Plus. The kind of operations where a single
@@ -566,7 +582,7 @@ function Founders() {
               <p className="font-body text-xs tracking-label uppercase text-dust/60 mb-3">
                 Founder — Product and Platform
               </p>
-              <div className="rule-ink mb-3" />
+              <svg viewBox="0 0 400 10" preserveAspectRatio="none" className="w-full h-2.5 mb-3" aria-hidden="true"><path d="M0 5 C50 2,83 8,133 5 C183 2,217 8,267 5 C317 2,350 8,400 5" stroke="rgba(240,237,230,0.15)" strokeWidth="1" fill="none" /></svg>
               <p className="font-body text-sm text-paper/70 leading-relaxed">
                 Product and platform work inside Lyft, SurveyMonkey, and
                 Google. Systems built to operate at scale, not to impress on a
@@ -576,7 +592,7 @@ function Founders() {
           </div>
         </div>
 
-        <div className="rule-ink" />
+        <svg viewBox="0 0 1200 10" preserveAspectRatio="none" className="w-full h-2.5" aria-hidden="true"><path d="M0 5 C150 2,250 8,400 5 C550 2,650 8,800 5 C950 2,1050 8,1200 5" stroke="rgba(240,237,230,0.15)" strokeWidth="1" fill="none" /></svg>
 
         {/* Bottom note */}
         <div className="mt-10 flex items-center gap-4">
@@ -621,7 +637,7 @@ function Process() {
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="flex items-center gap-4 mb-0">
           <SectionLabel>How we work</SectionLabel>
-          <div className="flex-1 rule" />
+          <div className="flex-1 overflow-hidden"><svg viewBox="0 0 400 10" preserveAspectRatio="none" className="w-full h-2.5" aria-hidden="true"><path d="M0 5 C50 2,83 8,133 5 C183 2,217 8,267 5 C317 2,350 8,400 5" stroke="#D8D3C9" strokeWidth="1" fill="none" /></svg></div>
         </div>
 
         {/* Step registers */}
@@ -666,7 +682,7 @@ function Contact() {
         {/* Section header */}
         <div className="flex items-center gap-4 mb-12 md:mb-16">
           <SectionLabel>Work with us</SectionLabel>
-          <div className="flex-1 rule" />
+          <div className="flex-1 overflow-hidden"><svg viewBox="0 0 400 10" preserveAspectRatio="none" className="w-full h-2.5" aria-hidden="true"><path d="M0 5 C50 2,83 8,133 5 C183 2,217 8,267 5 C317 2,350 8,400 5" stroke="#D8D3C9" strokeWidth="1" fill="none" /></svg></div>
         </div>
 
         {/* Headline */}
