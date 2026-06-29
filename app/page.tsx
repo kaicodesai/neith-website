@@ -193,41 +193,40 @@ function AnkhLetter({ className }: { className?: string }) {
   )
 }
 
-// Neith's shield with crossed arrows — sacred center element
-function NeithShieldBg() {
+// Shield-shaped CTA button
+function ShieldButton() {
   return (
-    <svg
-      viewBox="0 0 180 220"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-      className="w-[min(38vw,340px)] h-auto pointer-events-none"
+    <a
+      href="#contact"
+      className="shrink-0 relative inline-flex flex-col items-center justify-center self-start lg:self-auto
+                 text-ink hover:text-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand
+                 transition-colors duration-200 group"
+      style={{ width: '148px', height: '168px' }}
     >
-      {/* Shield — outer */}
-      <path
-        d="M 90 8 C 140 8 168 36 168 80 C 168 140 90 212 90 212 C 90 212 12 140 12 80 C 12 36 40 8 90 8 Z"
-        stroke="currentColor" strokeWidth="1.4"
-      />
-      {/* Shield — inner inset */}
-      <path
-        d="M 90 24 C 130 24 152 48 152 82 C 152 132 90 196 90 196 C 90 196 28 132 28 82 C 28 48 50 24 90 24 Z"
-        stroke="currentColor" strokeWidth="0.7"
-      />
-
-      {/* Crossed arrows — NW to SE */}
-      <line x1="38" y1="48" x2="142" y2="152" stroke="currentColor" strokeWidth="1.1" />
-      <path d="M 130 145 L 142 152 L 135 140" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M 44 53 L 38 48 L 44 43" stroke="currentColor" strokeWidth="0.9" strokeLinecap="round" strokeLinejoin="round" />
-
-      {/* Crossed arrows — NE to SW */}
-      <line x1="142" y1="48" x2="38" y2="152" stroke="currentColor" strokeWidth="1.1" />
-      <path d="M 50 145 L 38 152 L 45 140" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M 136 53 L 142 48 L 136 43" stroke="currentColor" strokeWidth="0.9" strokeLinecap="round" strokeLinejoin="round" />
-
-      {/* Center node */}
-      <circle cx="90" cy="100" r="4" fill="currentColor" />
-      <circle cx="90" cy="100" r="9" stroke="currentColor" strokeWidth="0.8" />
-    </svg>
+      {/* Shield outline */}
+      <svg
+        viewBox="0 0 148 168"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="absolute inset-0 w-full h-full"
+        aria-hidden="true"
+      >
+        <path
+          d="M 74 6 C 112 6 140 26 140 58 C 140 112 74 162 74 162 C 74 162 8 112 8 58 C 8 26 36 6 74 6 Z"
+          stroke="currentColor" strokeWidth="1.5" fill="none"
+        />
+        <path
+          d="M 74 18 C 104 18 128 34 128 60 C 128 106 74 150 74 150 C 74 150 20 106 20 60 C 20 34 44 18 74 18 Z"
+          stroke="currentColor" strokeWidth="0.6" opacity="0.4" fill="none"
+        />
+      </svg>
+      {/* Bow icon crest */}
+      <BowArrowIcon className="w-7 h-auto mb-2 relative z-10" />
+      {/* Text centered inside shield */}
+      <span className="relative z-10 font-body text-[9px] font-medium tracking-label uppercase text-center leading-relaxed px-4">
+        Book a<br />30-minute<br />call
+      </span>
+    </a>
   )
 }
 
@@ -291,16 +290,12 @@ function Hero() {
       className="relative min-h-screen flex flex-col justify-center pt-24 pb-20 overflow-hidden"
       aria-label="Introduction"
     >
-      {/* Corner orb-weaver webs — large top, small bottom */}
+      {/* Corner orb-weaver webs — large top corners */}
       <CornerWeb className="absolute -top-2 -left-2 w-80 h-80 text-brand opacity-[0.28] pointer-events-none" />
       <CornerWeb flip className="absolute -top-2 -right-2 w-80 h-80 text-ember opacity-[0.24] pointer-events-none" />
-      <CornerWeb flip className="absolute -bottom-2 -left-2 w-44 h-44 text-brand opacity-[0.16] pointer-events-none rotate-[270deg]" />
-      <CornerWeb className="absolute -bottom-2 -right-2 w-44 h-44 text-ember opacity-[0.14] pointer-events-none rotate-[270deg]" />
 
-      {/* Neith shield — sacred center element */}
-      <div className="absolute inset-0 flex items-center justify-center opacity-[0.07] text-ink pointer-events-none">
-        <NeithShieldBg />
-      </div>
+      {/* Large sweeping web from bottom-right — outer arcs flow toward center */}
+      <CornerWeb flip className="absolute -bottom-24 -right-24 w-[72vw] h-[72vw] text-ink opacity-[0.06] pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto w-full px-6 lg:px-12">
         {/* Section marker */}
@@ -330,17 +325,7 @@ function Hero() {
             </span>
           </p>
 
-          <a
-            href="#contact"
-            className="shrink-0 inline-flex items-center gap-3 font-body text-xs font-medium tracking-label uppercase
-                       bg-ink text-paper px-8 py-4 rounded-full
-                       hover:bg-brand
-                       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand
-                       transition-colors duration-200 self-start lg:self-auto"
-          >
-            <BowArrowIcon className="w-8 h-auto" />
-            Book a 30-minute call
-          </a>
+          <ShieldButton />
         </div>
 
         {/* Bottom rule */}
