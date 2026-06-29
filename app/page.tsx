@@ -315,18 +315,14 @@ function Hero() {
         {/* Rule below headline */}
         <div className="rule my-8 md:my-12" />
 
-        {/* Subhead + CTA row */}
-        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 lg:gap-16">
-          <p className="font-body text-lg md:text-xl text-slate leading-relaxed max-w-2xl">
-            We eliminate the Manual Layer between your tools, your team, and your growth.
-            <br className="hidden md:block" />
-            <span className="text-ink font-medium">
-              Production-grade. Documented. Done.
-            </span>
-          </p>
-
-          <ShieldButton />
-        </div>
+        {/* Subhead */}
+        <p className="font-body text-lg md:text-xl text-slate leading-relaxed max-w-2xl">
+          We eliminate the Manual Layer between your tools, your team, and your growth.
+          <br className="hidden md:block" />
+          <span className="text-ink font-medium">
+            Production-grade. Documented. Done.
+          </span>
+        </p>
 
         {/* Bottom rule */}
         <div className="rule mt-16 md:mt-24" />
