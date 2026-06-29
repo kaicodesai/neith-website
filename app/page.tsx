@@ -446,7 +446,9 @@ const services = [
 
 function Services() {
   return (
-    <section className="py-24 md:py-32" id="services" aria-label="What we build">
+    <section className="relative py-24 md:py-32 overflow-hidden" id="services" aria-label="What we build">
+      <CornerWeb flip className="absolute -top-4 -right-4 w-56 h-56 opacity-40 pointer-events-none" gradientFrom="#C06044" gradientTo="#2A5C3F" />
+      <MonsteraLeaf className="absolute -bottom-6 -right-4 w-44 h-auto text-ember opacity-30 pointer-events-none scale-x-[-1]" />
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="flex items-center gap-4 mb-0">
           <SectionLabel>What we build</SectionLabel>
@@ -503,6 +505,10 @@ function Founders() {
       <div className="absolute inset-0 opacity-[0.07] pointer-events-none">
         <OrbWeaveSVG />
       </div>
+      {/* Plants + webs on dark bg — paper-toned so they show */}
+      <MonsteraLeaf className="absolute -bottom-4 -left-4 w-64 h-auto text-paper opacity-[0.08] pointer-events-none" />
+      <MonsteraLeaf className="absolute top-12 -right-6 w-40 h-auto text-paper opacity-[0.06] pointer-events-none scale-x-[-1]" />
+      <CornerWeb className="absolute -bottom-4 -right-4 w-52 h-52 opacity-20 pointer-events-none" gradientFrom="#F0EDE6" gradientTo="#2A5C3F" />
 
       <div className="relative max-w-7xl mx-auto px-6 lg:px-12">
         {/* Section label */}
@@ -609,7 +615,9 @@ const steps = [
 
 function Process() {
   return (
-    <section className="py-24 md:py-32" id="process" aria-label="How we work">
+    <section className="relative py-24 md:py-32 overflow-hidden" id="process" aria-label="How we work">
+      <MonsteraLeaf className="absolute -top-8 -left-4 w-48 h-auto text-brand opacity-25 pointer-events-none" />
+      <CornerWeb flip className="absolute -bottom-4 -right-4 w-60 h-60 opacity-35 pointer-events-none" gradientFrom="#2A5C3F" gradientTo="#C06044" />
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="flex items-center gap-4 mb-0">
           <SectionLabel>How we work</SectionLabel>
@@ -647,10 +655,13 @@ function Process() {
 function Contact() {
   return (
     <section
-      className="py-24 md:py-32 bg-bone/30"
+      className="relative py-24 md:py-32 bg-bone/30 overflow-hidden"
       id="contact"
       aria-label="Contact"
     >
+      <MonsteraLeaf className="absolute -bottom-6 -left-4 w-72 h-auto text-brand opacity-30 pointer-events-none" />
+      <MonsteraLeaf className="absolute -top-6 -right-4 w-36 h-auto text-ember opacity-20 pointer-events-none scale-x-[-1]" />
+      <CornerWeb className="absolute -top-4 -left-4 w-48 h-48 opacity-30 pointer-events-none" gradientFrom="#2A5C3F" gradientTo="#C06044" />
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         {/* Section header */}
         <div className="flex items-center gap-4 mb-12 md:mb-16">
@@ -684,7 +695,9 @@ function Contact() {
 
 function Footer() {
   return (
-    <footer className="bg-ink py-12 md:py-16" aria-label="Footer">
+    <footer className="relative bg-ink py-12 md:py-16 overflow-hidden" aria-label="Footer">
+      <MonsteraLeaf className="absolute -bottom-4 -right-4 w-44 h-auto text-paper opacity-[0.07] pointer-events-none scale-x-[-1]" />
+      <CornerWeb className="absolute -top-2 -left-2 w-36 h-36 opacity-15 pointer-events-none" gradientFrom="#F0EDE6" gradientTo="#2A5C3F" />
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           {/* Logo + wordmark (white version) */}
