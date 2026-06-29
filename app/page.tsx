@@ -384,10 +384,10 @@ function Hero() {
 
         {/* Subhead */}
         <p className="font-body text-lg md:text-xl text-slate leading-relaxed max-w-2xl">
-          We eliminate the Manual Layer between your tools, your team, and your growth.
+          We dissolve the busywork between your tools, your team, and your growth —
           <br className="hidden md:block" />
           <span className="text-ink font-medium">
-            Production-grade. Documented. Done.
+            so your business feels as effortless as the experience you give your clients.
           </span>
         </p>
 
