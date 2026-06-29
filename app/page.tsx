@@ -18,6 +18,61 @@ function SectionLabel({ children, dark = false }: { children: string; dark?: boo
   )
 }
 
+// Monstera leaf — line art botanical, animated sway
+function MonsteraLeaf({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 220 300"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={`leaf-sway ${className ?? ''}`}
+      aria-hidden="true"
+    >
+      {/* Petiole (stem) */}
+      <path d="M 110 295 C 110 265 108 248 108 230" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+
+      {/* Main leaf outline — lobes with visible sinuses */}
+      <path
+        d="
+          M 108 230
+          C 80 222 42 205 20 178
+          C 4 158 6 132 22 114
+          C 4 94 0 64 18 42
+          C 34 22 62 10 90 16
+          C 98 4 114 0 130 6
+          C 158 12 178 36 176 62
+          C 198 70 214 94 210 120
+          C 220 142 214 170 196 186
+          C 208 208 204 236 182 250
+          C 162 264 136 260 108 230
+          Z
+        "
+        stroke="currentColor" strokeWidth="1.6" fill="none"
+      />
+
+      {/* Deep radial sinuses — the characteristic monstera cuts */}
+      <path d="M 22 114 C 55 118 82 128 108 230" stroke="currentColor" strokeWidth="1.1" />
+      <path d="M 18 42  C 52 68  80 118 108 230" stroke="currentColor" strokeWidth="1" />
+      <path d="M 196 186 C 164 178 138 162 108 230" stroke="currentColor" strokeWidth="1.1" />
+      <path d="M 210 120 C 178 120 148 138 108 230" stroke="currentColor" strokeWidth="1" />
+
+      {/* Fenestrations (holes) */}
+      <ellipse cx="80"  cy="112" rx="13" ry="18" transform="rotate(-18 80 112)"  stroke="currentColor" strokeWidth="1.3" />
+      <ellipse cx="142" cy="100" rx="14" ry="19" transform="rotate(18 142 100)"  stroke="currentColor" strokeWidth="1.3" />
+      <ellipse cx="86"  cy="170" rx="11" ry="15" transform="rotate(-10 86 170)"  stroke="currentColor" strokeWidth="1.2" />
+      <ellipse cx="144" cy="162" rx="10" ry="14" transform="rotate(10 144 162)"  stroke="currentColor" strokeWidth="1.2" />
+
+      {/* Midrib */}
+      <path d="M 108 230 C 106 195 104 158 106 120 C 108 88 112 58 116 30" stroke="currentColor" strokeWidth="0.8" opacity="0.5" />
+
+      {/* Secondary veins */}
+      <path d="M 106 140 C 78 132 50 130 24 136"  stroke="currentColor" strokeWidth="0.6" opacity="0.4" />
+      <path d="M 108 160 C 136 152 164 150 190 158" stroke="currentColor" strokeWidth="0.6" opacity="0.4" />
+      <path d="M 108 195 C 82 188 58 190 36 198"  stroke="currentColor" strokeWidth="0.6" opacity="0.4" />
+    </svg>
+  )
+}
+
 // Vesica Piscis break mark — sacred geometry section divider
 function NeithBreakMark({ dark = false }: { dark?: boolean }) {
   return (
@@ -72,11 +127,12 @@ function LeopardSpot({ cx, cy, r, variant }: { cx: number; cy: number; r: number
   )
 }
 
-// Orb-weaver web with leopard-print junction nodes
-function CornerWeb({ flip = false, className }: { flip?: boolean; className?: string }) {
+// Orb-weaver web with leopard-print junction nodes + color gradient
+function CornerWeb({ flip = false, className, gradientFrom = '#2A5C3F', gradientTo = '#C06044' }: { flip?: boolean; className?: string; gradientFrom?: string; gradientTo?: string }) {
   const threadAngles = [0, 6, 13, 20, 27, 34, 41, 48, 55, 62, 68, 74, 80, 86, 93, 100]
   const arcRadii = [38, 70, 105, 142, 182, 225, 272]
   const size = 320
+  const gradId = `webGrad-${flip ? 'r' : 'l'}-${gradientFrom.replace('#','')}`
 
   const ox = flip ? size : 0
   const oy = 0
@@ -92,6 +148,12 @@ function CornerWeb({ flip = false, className }: { flip?: boolean; className?: st
       className={className}
       aria-hidden="true"
     >
+      <defs>
+        <linearGradient id={gradId} x1={flip ? '100%' : '0%'} y1="0%" x2={flip ? '0%' : '100%'} y2="100%">
+          <stop offset="0%"   stopColor={gradientFrom} stopOpacity="1" />
+          <stop offset="100%" stopColor={gradientTo}   stopOpacity="0.3" />
+        </linearGradient>
+      </defs>
       {/* Radial silk threads */}
       {threadAngles.map((deg, i) => {
         const angle = toRad(baseAngle + deg)
@@ -102,7 +164,7 @@ function CornerWeb({ flip = false, className }: { flip?: boolean; className?: st
             x1={ox} y1={oy}
             x2={ox + dir * len * Math.cos(angle)}
             y2={oy + len * Math.sin(angle)}
-            stroke="currentColor" strokeWidth={i % 3 === 0 ? 0.9 : 0.55}
+            stroke={`url(#${gradId})`} strokeWidth={i % 3 === 0 ? 0.9 : 0.55}
           />
         )
       })}
@@ -120,7 +182,7 @@ function CornerWeb({ flip = false, className }: { flip?: boolean; className?: st
           <path
             key={ri}
             d={`M ${x1} ${y1} A ${r} ${r} 0 0 ${sweepFlag} ${x2} ${y2}`}
-            stroke="currentColor"
+            stroke={`url(#${gradId})`}
             strokeWidth={ri < 2 ? 0.9 : 0.6}
           />
         )
@@ -290,12 +352,16 @@ function Hero() {
       className="relative min-h-screen flex flex-col justify-center pt-24 pb-20 overflow-hidden"
       aria-label="Introduction"
     >
-      {/* Corner orb-weaver webs — large top corners */}
-      <CornerWeb className="absolute -top-2 -left-2 w-80 h-80 text-brand opacity-[0.28] pointer-events-none" />
-      <CornerWeb flip className="absolute -top-2 -right-2 w-80 h-80 text-ember opacity-[0.24] pointer-events-none" />
+      {/* Corner webs — green bleeds from left, terracotta from right, blend at center */}
+      <CornerWeb className="absolute -top-2 -left-2 w-80 h-80 opacity-[0.7] pointer-events-none" gradientFrom="#2A5C3F" gradientTo="#C06044" />
+      <CornerWeb flip className="absolute -top-2 -right-2 w-80 h-80 opacity-[0.6] pointer-events-none" gradientFrom="#C06044" gradientTo="#2A5C3F" />
 
-      {/* Large sweeping web from bottom-right — outer arcs flow toward center */}
-      <CornerWeb flip className="absolute -bottom-24 -right-24 w-[72vw] h-[72vw] text-ink opacity-[0.06] pointer-events-none" />
+      {/* Large sweeping web from bottom-right */}
+      <CornerWeb flip className="absolute -bottom-24 -right-24 w-[72vw] h-[72vw] opacity-[0.08] pointer-events-none" gradientFrom="#2A5C3F" gradientTo="#C06044" />
+
+      {/* Monstera leaves — bottom corners */}
+      <MonsteraLeaf className="absolute -bottom-4 -left-2 w-52 h-auto text-brand opacity-60 pointer-events-none" />
+      <MonsteraLeaf className="absolute -bottom-4 -right-2 w-36 h-auto text-ember opacity-40 pointer-events-none scale-x-[-1]" />
 
       <div className="relative max-w-7xl mx-auto w-full px-6 lg:px-12">
         {/* Section marker */}

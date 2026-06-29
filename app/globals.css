@@ -67,6 +67,15 @@
   }
 }
 
+@keyframes leafSway {
+  0%, 100% { transform: rotate(-4deg) translateY(0px); }
+  50%       { transform: rotate(3deg)  translateY(-10px); }
+}
+.leaf-sway {
+  animation: leafSway 7s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;

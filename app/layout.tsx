@@ -66,7 +66,7 @@ function PaintBlobLeft() {
           L 0 600
           Z
         `}
-        fill="#111010"
+        fill="#2A5C3F"
       />
     </svg>
   )
@@ -99,7 +99,7 @@ function PaintBlobRight() {
           L 100 700
           Z
         `}
-        fill="#111010"
+        fill="#2A5C3F"
       />
     </svg>
   )
