@@ -671,7 +671,8 @@ function Process() {
 function Contact() {
   return (
     <section
-      className="relative py-24 md:py-32 bg-bone/30 overflow-hidden"
+      className="relative py-24 md:py-32 overflow-hidden"
+      style={{ background: '#E9E5DD' }}
       id="contact"
       aria-label="Contact"
     >
@@ -759,16 +760,20 @@ function Footer() {
   )
 }
 
-// Half-crescent that straddles a section boundary, softening the hard edge
-function CrescentDivider({ color = '#2A5C3F' }: { color?: string }) {
+// Full-width wave that replaces the hard straight edge between sections
+function WaveDivider({ from, to, flip = false }: { from: string; to: string; flip?: boolean }) {
+  // One big smooth S-curve crescent spanning the full width
+  const path = flip
+    ? 'M0,60 Q360,0 720,60 Q1080,120 1440,60 L1440,120 L0,120 Z'
+    : 'M0,60 Q360,120 720,60 Q1080,0 1440,60 L1440,120 L0,120 Z'
   return (
-    <div className="relative h-0 z-20" aria-hidden="true">
+    <div style={{ background: from }} aria-hidden="true">
       <svg
-        viewBox="0 0 100 50"
-        className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 w-20 h-10 md:w-28 md:h-14"
+        viewBox="0 0 1440 120"
+        preserveAspectRatio="none"
+        style={{ display: 'block', width: '100%', height: '70px' }}
       >
-        <path d="M5 25 A45 45 0 0 1 95 25" stroke={color} strokeWidth="2" fill="none" strokeLinecap="round" />
-        <circle cx="50" cy="25" r="2" fill={color} />
+        <path d={path} fill={to} />
       </svg>
     </div>
   )
@@ -780,15 +785,18 @@ export default function Page() {
   return (
     <>
       <Hero />
-      <CrescentDivider color="#2A5C3F" />
       <Services />
-      <CrescentDivider color="#C06044" />
+      {/* paper → ink */}
+      <WaveDivider from="#F0EDE6" to="#111010" />
       <Founders />
-      <CrescentDivider color="#F0EDE6" />
+      {/* ink → paper */}
+      <WaveDivider from="#111010" to="#F0EDE6" flip />
       <Process />
-      <CrescentDivider color="#2A5C3F" />
+      {/* paper → light bone tint */}
+      <WaveDivider from="#F0EDE6" to="#E9E5DD" />
       <Contact />
-      <CrescentDivider color="#C06044" />
+      {/* bone tint → ink */}
+      <WaveDivider from="#E9E5DD" to="#111010" flip />
       <Footer />
     </>
   )
