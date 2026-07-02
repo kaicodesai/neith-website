@@ -353,6 +353,219 @@ function OrbWeaveSVG() {
   )
 }
 
+// ─── Flow Diagram (systems / social proof) ────────────────────────────────────
+
+interface FlowNodeDef {
+  label: string
+  sub?: string
+  type: 'trigger' | 'process' | 'ai' | 'output'
+}
+
+const nodePalette = {
+  trigger: { bg: '#E9E5DD', border: '#ADA69B', text: '#2D2925' },
+  process: { bg: '#F0EDE6', border: '#C8C2B8', text: '#2D2925' },
+  ai:      { bg: '#2A5C3F', border: '#2A5C3F', text: '#F0EDE6' },
+  output:  { bg: '#111010', border: '#111010', text: '#F0EDE6' },
+} as const
+
+function FlowDiagram({ nodes }: { nodes: FlowNodeDef[] }) {
+  const NW = 86, NH = 28, GAP = 36, PAD = 14
+  const totalW = nodes.length * NW + (nodes.length - 1) * GAP + PAD * 2
+  const totalH = 72
+  const midY = totalH / 2
+
+  return (
+    <svg viewBox={`0 0 ${totalW} ${totalH}`} className="w-full h-auto" aria-hidden="true">
+      {nodes.map((node, i) => {
+        const cx = PAD + i * (NW + GAP) + NW / 2
+        const c = nodePalette[node.type]
+        const prevRightX = PAD + (i - 1) * (NW + GAP) + NW
+        return (
+          <g key={i}>
+            {i > 0 && (
+              <>
+                <line x1={prevRightX + 1} y1={midY} x2={cx - NW / 2 - 5} y2={midY}
+                  stroke="#ADA69B" strokeWidth="0.8" />
+                <polygon
+                  points={`${cx - NW / 2},${midY} ${cx - NW / 2 - 7},${midY - 3.5} ${cx - NW / 2 - 7},${midY + 3.5}`}
+                  fill="#ADA69B"
+                />
+              </>
+            )}
+            <rect
+              x={cx - NW / 2} y={midY - NH / 2}
+              width={NW} height={NH} rx="2"
+              fill={c.bg} stroke={c.border} strokeWidth="0.8"
+            />
+            <text
+              x={cx} y={node.sub ? midY - 2 : midY + 4}
+              textAnchor="middle" fontSize="6.5" fontWeight="500" fill={c.text}
+              style={{ fontFamily: 'system-ui, sans-serif', letterSpacing: '0.04em' }}
+            >
+              {node.label}
+            </text>
+            {node.sub && (
+              <text
+                x={cx} y={midY + 8}
+                textAnchor="middle" fontSize="5.5" fill={c.text} opacity={0.65}
+                style={{ fontFamily: 'system-ui, sans-serif' }}
+              >
+                {node.sub}
+              </text>
+            )}
+          </g>
+        )
+      })}
+    </svg>
+  )
+}
+
+const systems: {
+  n: string
+  name: string
+  description: string
+  result: string
+  nodes: FlowNodeDef[]
+}[] = [
+  {
+    n: '01',
+    name: 'Lead Qualification',
+    description:
+      'Every new contact scored and routed the moment the form submits. Hot leads land in HubSpot with a Slack alert within 90 seconds. Cold leads enter a nurture sequence automatically. Zero manual triage.',
+    result: '~4 hrs/week of manual triage → fully automated',
+    nodes: [
+      { label: 'Website Form',  type: 'trigger' },
+      { label: 'n8n',           sub: 'webhook trigger',  type: 'process' },
+      { label: 'Claude API',    sub: 'score + qualify',  type: 'ai' },
+      { label: 'HubSpot CRM',   sub: 'deal created',     type: 'output' },
+      { label: 'Slack Alert',   sub: 'sales team',       type: 'output' },
+    ],
+  },
+  {
+    n: '02',
+    name: 'Client Onboarding',
+    description:
+      'Payment confirms. Account provisions. Welcome kit sends. Client portal activates. Every step runs automatically. New clients are live in minutes, not a two-day back-and-forth.',
+    result: 'Manual 2-day process → under 4 minutes',
+    nodes: [
+      { label: 'Stripe Payment', type: 'trigger' },
+      { label: 'n8n',            sub: 'orchestrate',     type: 'process' },
+      { label: 'Supabase',       sub: 'create account',  type: 'process' },
+      { label: 'Airtable',       sub: 'log client',      type: 'output' },
+      { label: 'Welcome Email',  sub: '+ portal link',   type: 'output' },
+    ],
+  },
+  {
+    n: '03',
+    name: 'Weekly Reporting',
+    description:
+      "Every Monday at 7 AM, a complete performance report hits leadership's inbox. Sourced from Airtable, Amazon, and ad platforms. Written and formatted by Claude. Nobody touched it.",
+    result: '8 hrs of analyst time per week → zero',
+    nodes: [
+      { label: 'Airtable',    sub: '+ Amazon Ads',    type: 'trigger' },
+      { label: 'n8n',         sub: 'aggregate data',  type: 'process' },
+      { label: 'Claude API',  sub: 'synthesize',      type: 'ai' },
+      { label: 'PDF Report',  sub: 'auto-formatted',  type: 'output' },
+      { label: 'Slack + Email', sub: 'auto-send',     type: 'output' },
+    ],
+  },
+]
+
+function SystemsBuilt() {
+  return (
+    <section
+      className="relative py-24 md:py-32 overflow-hidden"
+      id="systems"
+      aria-label="Systems in production"
+    >
+      <MonsteraLeaf className="absolute -top-6 -right-4 w-44 h-auto text-ember opacity-20 pointer-events-none scale-x-[-1]" />
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+        {/* Section header */}
+        <div className="flex items-center gap-4 mb-0">
+          <SectionLabel>In practice</SectionLabel>
+          <div className="flex-1 overflow-hidden">
+            <svg viewBox="0 0 400 40" preserveAspectRatio="none" className="w-full h-6" aria-hidden="true">
+              <path d="M0 20 C67 2,133 38,200 20 C267 2,333 38,400 20" stroke="#C8C2B8" strokeWidth="1.6" fill="none" strokeLinecap="round" />
+            </svg>
+          </div>
+        </div>
+
+        {/* Heading + framing */}
+        <div className="pt-10 md:pt-14 mb-8 md:mb-10">
+          <h2
+            className="font-display font-bold text-ink mb-4"
+            style={{ fontSize: 'clamp(1.75rem, 4vw, 3.25rem)', lineHeight: '1.06', letterSpacing: '-0.02em' }}
+          >
+            What a system looks like.
+          </h2>
+          <p className="font-body text-base text-slate max-w-xl leading-relaxed">
+            Real tools. Real logic. Not a prototype — the kind of production system
+            we spec, build, and hand off.
+          </p>
+        </div>
+
+        {/* Diagram legend */}
+        <div className="flex flex-wrap gap-x-6 gap-y-2 pb-2">
+          {(['trigger', 'process', 'ai', 'output'] as const).map((type) => {
+            const c = nodePalette[type]
+            const labels = { trigger: 'Trigger', process: 'Process', ai: 'AI step', output: 'Output' }
+            return (
+              <div key={type} className="flex items-center gap-2">
+                <span
+                  className="inline-block w-3 h-3 rounded-[1px]"
+                  style={{ background: c.bg, border: `1px solid ${c.border}` }}
+                />
+                <span className="font-body text-xs text-dust uppercase tracking-label">
+                  {labels[type]}
+                </span>
+              </div>
+            )
+          })}
+        </div>
+
+        {/* System registers */}
+        <div>
+          {systems.map((sys) => (
+            <div key={sys.n}>
+              <Rule />
+              <div className="py-8 md:py-10">
+                {/* Number + name + result stat */}
+                <div className="grid grid-cols-[auto,1fr] md:grid-cols-[64px,1fr] gap-x-6 md:gap-x-12 mb-6">
+                  <span className="font-display font-medium text-sm text-dust mt-1 tracking-label">
+                    {sys.n}
+                  </span>
+                  <div>
+                    <h3 className="font-display font-semibold text-service-name text-ink mb-1">
+                      {sys.name}
+                    </h3>
+                    <p className="font-body text-xs font-medium text-brand tracking-label uppercase">
+                      {sys.result}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Diagram — horizontally scrollable on small screens */}
+                <div className="md:pl-[76px] overflow-x-auto">
+                  <div style={{ minWidth: '480px' }}>
+                    <FlowDiagram nodes={sys.nodes} />
+                  </div>
+                </div>
+
+                {/* Description */}
+                <p className="md:pl-[76px] mt-5 font-body text-sm md:text-base text-slate leading-relaxed max-w-2xl">
+                  {sys.description}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <Rule />
+      </div>
+    </section>
+  )
+}
+
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 
 function Hero() {
@@ -786,6 +999,7 @@ export default function Page() {
     <>
       <Hero />
       <Services />
+      <SystemsBuilt />
       {/* paper → ink */}
       <WaveDivider from="#F0EDE6" to="#111010" />
       <Founders />

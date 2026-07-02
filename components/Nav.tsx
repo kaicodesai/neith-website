@@ -86,6 +86,7 @@ export default function Nav() {
         <nav className="hidden md:flex items-center gap-8" aria-label="Site navigation">
           {[
             { label: 'Services', href: '#services' },
+            { label: 'Systems', href: '#systems' },
             { label: 'About', href: '#about' },
             { label: 'Process', href: '#process' },
             { label: 'Contact', href: '#contact' },
