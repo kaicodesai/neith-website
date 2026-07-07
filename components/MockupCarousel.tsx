@@ -2,499 +2,509 @@
 
 import { useState } from 'react'
 
-// ─── Sparkline helper ─────────────────────────────────────────────────────────
-function spark(data: number[], x: number, y: number, w: number, h: number) {
-  const lo = Math.min(...data), hi = Math.max(...data), rng = hi - lo || 1
-  return data.map((v, i) => `${x + (i / (data.length - 1)) * w},${y + h - ((v - lo) / rng) * h}`).join(' ')
-}
+// ─── Slide 1: Notion-style client onboarding database ─────────────────────────
+function SlideNotion() {
+  const statuses = [
+    { label: 'Active', bg: '#E6F4EC', text: '#1A6636' },
+    { label: 'Onboarding', bg: '#FEF3C7', text: '#92400E' },
+    { label: 'Active', bg: '#E6F4EC', text: '#1A6636' },
+    { label: 'In Review', bg: '#EDE9FE', text: '#4C1D95' },
+  ]
+  const rows = [
+    { name: 'Bloom Studio', company: 'Bloom Studio Co.', start: 'Jun 2', tasks: '12 / 12', score: '94' },
+    { name: 'Meridian Legal', company: 'Meridian LLP', start: 'Jun 9', tasks: '7 / 14', score: '81' },
+    { name: 'Oaks Advisory', company: 'Oaks Group', start: 'Jun 14', tasks: '11 / 11', score: '97' },
+    { name: 'Vesper Media', company: 'Vesper Inc.', start: 'Jun 18', tasks: '3 / 10', score: '72' },
+  ]
 
-// ─── Shared chrome ────────────────────────────────────────────────────────────
-function Chrome({ view }: { view: 'feed' | 'analytics' | 'systems' | 'reports' }) {
-  const nav = ['Feed', 'Analytics', 'Systems', 'Reports']
   return (
-    <>
-      {/* Header */}
-      <rect width="800" height="44" fill="#0B1310" />
-      <polygon points="16,22 22,15 28,22 22,29" stroke="#2A5C3F" strokeWidth={1.3} fill="none" />
-      <circle cx="22" cy="22" r="2.2" fill="#2A5C3F" />
-      <text x="36" y="19" fill="#F0EDE6" fontSize={10} fontWeight="600" fontFamily="system-ui" letterSpacing={2}>COMMAND</text>
-      <text x="36" y="33" fill="#4A7A5E" fontSize={7.5} fontFamily="system-ui" letterSpacing={1}>by Neith AI</text>
-      {/* Live pulse */}
-      <circle cx="614" cy="22" r="4" fill="#2A5C3F" className="animate-pulse" />
-      <text x="624" y="26" fill="#4A7A5E" fontSize={8.5} fontFamily="system-ui">Bloom Studio</text>
-      {/* Avatar */}
-      <circle cx="770" cy="22" r="11" fill="#2A5C3F" fillOpacity={0.25} stroke="#2A5C3F" strokeWidth={0.8} />
-      <text x="770" y="26.5" fill="#2A5C3F" fontSize={10} fontFamily="system-ui" textAnchor="middle" fontWeight="600">B</text>
-      {/* Notif badge */}
-      <rect x="726" y="13" width="18" height="18" rx={3} fill="none" stroke="#2A5C3F" strokeWidth={0.7} strokeOpacity={0.4} />
-      <text x="735" y="25" fill="#4A7A5E" fontSize={8.5} fontFamily="system-ui" textAnchor="middle">2</text>
+    <svg viewBox="0 0 800 480" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+      {/* Window chrome */}
+      <rect width="800" height="480" fill="#ffffff" />
+      <rect width="800" height="48" fill="#F7F7F5" />
+      <circle cx="20" cy="24" r="6" fill="#FFBD2E" />
+      <circle cx="40" cy="24" r="6" fill="#28C840" />
+      <circle cx="60" cy="24" r="6" fill="#FF6159" />
+      {/* Page icon + title */}
+      <rect x="88" y="15" width="14" height="18" rx="2" fill="#111010" fillOpacity="0.12" />
+      <text x="110" y="28" fill="#111010" fontSize={13} fontWeight="600" fontFamily="system-ui">Client Onboarding</text>
+      {/* Breadcrumb */}
+      <text x="110" y="44" fill="#999" fontSize={9.5} fontFamily="system-ui">Neith AI  /  Workspaces  /  Clients</text>
 
       {/* Sidebar */}
-      <rect x="0" y="44" width="148" height="436" fill="#08100D" />
-      <line x1="148" y1="44" x2="148" y2="480" stroke="#172519" strokeWidth={1} />
-      {nav.map((label, i) => {
-        const active = label.toLowerCase() === view
-        const y = 88 + i * 52
+      <rect x="0" y="48" width="180" height="432" fill="#F7F7F5" />
+      {['Dashboard', 'Clients', 'Leads', 'Projects', 'Reports'].map((item, i) => (
+        <g key={item}>
+          {i === 1 && <rect x="4" y={72 + i * 36} width="172" height="28" rx="5" fill="#111010" fillOpacity="0.08" />}
+          <text x="20" y={91 + i * 36} fill={i === 1 ? '#111010' : '#666'} fontSize={12} fontFamily="system-ui" fontWeight={i === 1 ? '600' : '400'}>{item}</text>
+        </g>
+      ))}
+      <text x="12" y="290" fill="#aaa" fontSize={9} fontFamily="system-ui" letterSpacing={1.5}>AUTOMATIONS</text>
+      {['New client intake', 'Task generator', 'Weekly digest'].map((item, i) => (
+        <g key={item}>
+          <circle cx="20" cy={313 + i * 26} r="3.5" fill="#2A5C3F" fillOpacity="0.5" />
+          <text x="32" y={317 + i * 26} fill="#555" fontSize={11} fontFamily="system-ui">{item}</text>
+        </g>
+      ))}
+
+      {/* Main content */}
+      <rect x="180" y="48" width="620" height="432" fill="#ffffff" />
+
+      {/* Filter bar */}
+      <rect x="196" y="62" width="82" height="24" rx="5" fill="#111010" />
+      <text x="237" y="78" fill="#fff" fontSize={10} fontFamily="system-ui" textAnchor="middle" fontWeight="600">All clients</text>
+      <rect x="286" y="62" width="72" height="24" rx="5" fill="none" stroke="#E0E0E0" strokeWidth="1" />
+      <text x="322" y="78" fill="#666" fontSize={10} fontFamily="system-ui" textAnchor="middle">Active only</text>
+      {/* Auto-badge */}
+      <rect x="620" y="62" width="130" height="24" rx="5" fill="#E6F4EC" />
+      <circle cx="634" cy="74" r="3.5" fill="#2A5C3F" className="animate-pulse" />
+      <text x="643" y="78" fill="#1A6636" fontSize={10} fontFamily="system-ui" fontWeight="500">Auto-synced · 2 min ago</text>
+
+      {/* Table header */}
+      <rect x="196" y="100" width="588" height="28" fill="#F7F7F5" />
+      {['Client', 'Company', 'Start', 'Status', 'Tasks', 'AI Score'].map((h, i) => {
+        const xs = [210, 320, 420, 490, 570, 670]
+        return <text key={h} x={xs[i]} y="118" fill="#999" fontSize={9.5} fontFamily="system-ui" fontWeight="600" letterSpacing={0.8}>{h.toUpperCase()}</text>
+      })}
+
+      {/* Table rows */}
+      {rows.map((r, i) => {
+        const y = 128 + i * 50
+        const s = statuses[i]
         return (
-          <g key={label}>
-            {active && <rect x="0" y={y - 16} width="148" height="34" fill="#2A5C3F" fillOpacity={0.13} />}
-            {active && <rect x="0" y={y - 16} width="3" height="34" fill="#2A5C3F" />}
-            {/* icon lines */}
-            <line x1="20" y1={y - 2} x2="28" y2={y - 2} stroke={active ? '#2A5C3F' : '#3A5244'} strokeWidth={1.5} />
-            <line x1="20" y1={y + 3} x2="26" y2={y + 3} stroke={active ? '#2A5C3F' : '#3A5244'} strokeWidth={1} />
-            <text x="38" y={y + 5} fill={active ? '#F0EDE6' : '#4A7A5E'} fontSize={11}
-              fontFamily="system-ui" fontWeight={active ? '500' : '400'}>{label}</text>
+          <g key={r.name}>
+            <rect x="196" y={y} width="588" height="50" fill={i % 2 === 0 ? '#ffffff' : '#FAFAFA'} />
+            <rect x="196" y={y + 49} width="588" height="1" fill="#F0F0F0" />
+            {/* Avatar circle */}
+            <circle cx="222" cy={y + 24} r="12" fill="#111010" fillOpacity="0.07" />
+            <text x="222" y={y + 28} fill="#111010" fontSize={10} fontFamily="system-ui" textAnchor="middle" fontWeight="600">{r.name[0]}</text>
+            <text x="244" y={y + 28} fill="#111010" fontSize={12} fontFamily="system-ui" fontWeight="500">{r.name}</text>
+            <text x="320" y={y + 28} fill="#555" fontSize={12} fontFamily="system-ui">{r.company}</text>
+            <text x="420" y={y + 28} fill="#777" fontSize={11} fontFamily="system-ui">{r.start}</text>
+            {/* Status pill */}
+            <rect x="482" y={y + 14} width="72" height="20" rx="10" fill={s.bg} />
+            <text x="518" y={y + 28} fill={s.text} fontSize={9.5} fontFamily="system-ui" fontWeight="600" textAnchor="middle">{s.label}</text>
+            <text x="570" y={y + 28} fill="#555" fontSize={11} fontFamily="system-ui">{r.tasks}</text>
+            {/* Score bar */}
+            <rect x="660" y={y + 19} width="40" height="8" rx="4" fill="#E8E8E8" />
+            <rect x="660" y={y + 19} width={40 * parseInt(r.score) / 100} height="8" rx="4" fill="#2A5C3F" />
+            <text x="707" y={y + 27} fill="#111010" fontSize={10} fontFamily="system-ui" fontWeight="600">{r.score}</text>
           </g>
         )
       })}
-      <line x1="16" y1="445" x2="132" y2="445" stroke="#172519" strokeWidth={0.6} />
-      <circle cx="24" cy="460" r="3.5" fill="#2A5C3F" />
-      <text x="34" y="464" fill="#3A5244" fontSize={8} fontFamily="system-ui">All systems live</text>
-    </>
-  )
-}
 
-// ─── Slide 1: Live Feed ───────────────────────────────────────────────────────
-function SlideFeed() {
-  const events = [
-    { time: '2:14:34 PM', type: 'ALERT',   text: 'Slack → #sales  ·  "Hot lead: Emma Chen, $8k ACV est."',   dot: '#2A5C3F' },
-    { time: '2:14:33 PM', type: 'CRM',     text: 'Deal created  ·  Emma Chen  ·  Bloom-2047  ·  $8,400',     dot: '#2A5C3F' },
-    { time: '2:14:33 PM', type: 'SCORE',   text: 'Lead scored  ·  Emma Chen  ·  9.2 / 10  →  HubSpot',       dot: '#2A5C3F' },
-    { time: '2:11:10 PM', type: 'EMAIL',   text: 'Welcome kit sent  ·  Marcus Webb  ·  portal link included', dot: '#2A5C3F' },
-    { time: '2:11:09 PM', type: 'ACCOUNT', text: 'Account created  ·  Marcus Webb  ·  Supabase + Airtable',   dot: '#2A5C3F' },
-    { time: '2:11:08 PM', type: 'PAYMENT', text: 'Payment received  ·  Marcus Webb  ·  Stripe  ·  $2,200',    dot: '#C06044' },
-    { time: '2:08:44 PM', type: 'NURTURE', text: 'Nurture triggered  ·  Jordan P.  ·  "7-day cold" sequence', dot: '#4A7A5E' },
-    { time: '2:08:44 PM', type: 'SCORE',   text: 'Lead scored  ·  Jordan P.  ·  2.1 / 10  →  Nurture',       dot: '#4A7A5E' },
-    { time: '1:59:12 PM', type: 'REPORT',  text: 'Intelligence brief delivered  ·  leadership@bloomstudio.co', dot: '#C06044' },
-  ]
-  const stats = [
-    { label: 'Leads Processed', val: '47' },
-    { label: 'Deals Created', val: '8' },
-    { label: 'Pipeline Added', val: '$18.4k' },
-    { label: 'Hours Saved', val: '12.5' },
-  ]
-  return (
-    <svg viewBox="0 0 800 480" className="w-full h-full" aria-label="Live feed mockup">
-      <rect width="800" height="480" fill="#0A0F0D" />
-      <Chrome view="feed" />
-
-      {/* Content header */}
-      <rect x="148" y="44" width="652" height="36" fill="#0C1410" />
-      <text x="168" y="66" fill="#F0EDE6" fontSize={13} fontWeight="500" fontFamily="system-ui">Live Feed</text>
-      <text x="254" y="66" fill="#3A5244" fontSize={11} fontFamily="system-ui">· updating in real time</text>
-      {/* today summary panel */}
-      <rect x="596" y="80" width="196" height="388" fill="#0C1410" />
-      <line x1="596" y1="80" x2="596" y2="468" stroke="#172519" strokeWidth={0.8} />
-      <text x="614" y="104" fill="#4A7A5E" fontSize={8} fontFamily="system-ui" letterSpacing={1.2}>TODAY'S SUMMARY</text>
-      {stats.map((s, i) => (
-        <g key={i}>
-          <line x1="614" y1={120 + i * 64} x2="782" y2={120 + i * 64} stroke="#172519" strokeWidth={0.5} />
-          <text x="614" y={114 + i * 64} fill="#3A5244" fontSize={8} fontFamily="system-ui" letterSpacing={0.8}>{s.label.toUpperCase()}</text>
-          <text x="614" y={142 + i * 64} fill="#F0EDE6" fontSize={26} fontWeight="700" fontFamily="system-ui">{s.val}</text>
-        </g>
-      ))}
-
-      {/* Events */}
-      <rect x="148" y="80" width="448" height="388" fill="#0A0F0D" />
-      {/* Column labels */}
-      <text x="168" y="100" fill="#3A5244" fontSize={8} fontFamily="system-ui" letterSpacing={1}>TIME</text>
-      <text x="244" y="100" fill="#3A5244" fontSize={8} fontFamily="system-ui" letterSpacing={1}>TYPE</text>
-      <text x="310" y="100" fill="#3A5244" fontSize={8} fontFamily="system-ui" letterSpacing={1}>EVENT</text>
-      <line x1="148" y1="105" x2="596" y2="105" stroke="#172519" strokeWidth={0.6} />
-      {events.map((ev, i) => (
-        <g key={i}>
-          <rect x="148" y={108 + i * 38} width="448" height="38"
-            fill={i === 0 ? '#0F1D16' : i % 2 === 0 ? '#0A0F0D' : '#0C1410'} />
-          <circle cx="161" cy={127 + i * 38} r="3.5" fill={ev.dot} />
-          <text x="172" y={131 + i * 38} fill="#3A5244" fontSize={8.5} fontFamily="system-ui">{ev.time}</text>
-          <rect x="240" y={119 + i * 38} width={ev.type.length * 5.5 + 8} height={16} rx={3}
-            fill={ev.dot} fillOpacity={0.15} />
-          <text x="244" y={131 + i * 38} fill={ev.dot} fontSize={7.5} fontWeight="500" fontFamily="system-ui" letterSpacing={0.5}>{ev.type}</text>
-          <text x="308" y={131 + i * 38} fill={i < 3 ? '#C8D5CE' : '#8AAF9B'} fontSize={9.5} fontFamily="system-ui">{ev.text}</text>
-        </g>
-      ))}
-      <rect x="148" y="448" width="448" height="20" fill="#0B1310" />
-      <text x="168" y="461" fill="#3A5244" fontSize={8} fontFamily="system-ui">n8n · Claude API · HubSpot · Stripe · Supabase</text>
+      {/* Bottom badge */}
+      <rect x="196" y="432" width="588" height="36" fill="#F7F7F5" />
+      <text x="210" y="454" fill="#aaa" fontSize={10} fontFamily="system-ui">4 clients  ·  Auto-populated via intake form  ·  Tasks generated by AI on entry</text>
     </svg>
   )
 }
 
-// ─── Slide 2: Analytics ───────────────────────────────────────────────────────
-function SlideAnalytics() {
-  const sparkData = [
-    [31, 38, 35, 44, 42, 53, 49, 58],
-    [18, 22, 19, 26, 24, 31, 28, 33],
-    [4.2, 5.1, 4.8, 6.0, 5.6, 7.2, 6.8, 8.1],
+// ─── Slide 2: HubSpot-style lead pipeline ─────────────────────────────────────
+function SlidePipeline() {
+  const cols = [
+    { label: 'New Lead', count: 3, color: '#F3F4F6' },
+    { label: 'AI Qualified', count: 2, color: '#EFF6FF' },
+    { label: 'Proposal Sent', count: 2, color: '#F5F3FF' },
+    { label: 'Closed Won', count: 2, color: '#F0FDF4' },
   ]
-  const kpis = [
-    { label: 'REVENUE',       val: '$58,200', delta: '+18% vs last week', c: '#2A5C3F',  spark: sparkData[0] },
-    { label: 'LEADS SCORED',  val: '214',     delta: '+23% vs last week', c: '#2A5C3F',  spark: sparkData[1] },
-    { label: 'HOURS SAVED',   val: '18.5',    delta: 'automated this week', c: '#C06044', spark: sparkData[2] },
+  const cards = [
+    [
+      { name: 'Arlo Skincare', value: '$4,200', tag: 'E-commerce', score: null },
+      { name: 'Trove Wellness', value: '$3,600', tag: 'Health', score: null },
+      { name: 'Dune Creative', value: '$2,800', tag: 'Agency', score: null },
+    ],
+    [
+      { name: 'Bloom Studio', value: '$6,000', tag: 'Design', score: '92' },
+      { name: 'Meridian Legal', value: '$8,500', tag: 'Legal', score: '87' },
+    ],
+    [
+      { name: 'Oaks Advisory', value: '$7,200', tag: 'Finance', score: '95' },
+      { name: 'Vesper Media', value: '$5,400', tag: 'Media', score: '79' },
+    ],
+    [
+      { name: 'Nova Retail', value: '$4,800', tag: 'Retail', score: '91' },
+      { name: 'Crest Brands', value: '$6,100', tag: 'Brand', score: '88' },
+    ],
   ]
-  const insights = [
-    { text: 'Walmart channel outperformed forecast by 23% — the automated reorder alert system drove $12k in reactivated orders.' },
-    { text: 'Lead-to-deal conversion is tracking at 17.4%, up from 12.1% since routing automation launched 6 weeks ago.' },
-    { text: 'Wednesday inbound volume is 2.4× higher than Monday. Consider shifting outreach sequences to Tue night.' },
-  ]
-  // area chart path
-  const area = 'M 160,380 L 160,362 Q 204,343 248,325 Q 292,334 336,343 Q 380,318 424,293 Q 468,299 512,306 Q 556,275 600,245 Q 644,254 688,264 Q 732,240 776,216 L 776,380 Z'
-  const line = 'M 160,362 Q 204,343 248,325 Q 292,334 336,343 Q 380,318 424,293 Q 468,299 512,306 Q 556,275 600,245 Q 644,254 688,264 Q 732,240 776,216'
-  const gridYs = [216, 255, 293, 332, 370]
-  const gridLabels = ['$58k', '$48k', '$38k', '$28k', '$18k']
-  const weekLabels = ['May 19', 'Jun 2', 'Jun 16', 'Jun 30', 'Jul 7']
-  const weekXs = [160, 336, 512, 688, 776]
 
   return (
-    <svg viewBox="0 0 800 480" className="w-full h-full" aria-label="Analytics mockup">
-      <defs>
-        <linearGradient id="ag" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#2A5C3F" stopOpacity={0.55} />
-          <stop offset="100%" stopColor="#2A5C3F" stopOpacity={0} />
-        </linearGradient>
-        <filter id="glow2">
-          <feGaussianBlur stdDeviation={3} result="b" />
-          <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
-        </filter>
-      </defs>
-      <rect width="800" height="480" fill="#0A0F0D" />
-      <Chrome view="analytics" />
+    <svg viewBox="0 0 800 480" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+      <rect width="800" height="480" fill="#ffffff" />
+      {/* Top bar */}
+      <rect width="800" height="48" fill="#F7F7F5" />
+      <circle cx="20" cy="24" r="6" fill="#FFBD2E" />
+      <circle cx="40" cy="24" r="6" fill="#28C840" />
+      <circle cx="60" cy="24" r="6" fill="#FF6159" />
+      <text x="88" y="30" fill="#111010" fontSize={13} fontWeight="600" fontFamily="system-ui">Sales Pipeline — Q2 2024</text>
+      <rect x="580" y="13" width="110" height="22" rx="5" fill="#E6F4EC" />
+      <circle cx="594" cy="24" r="3.5" fill="#2A5C3F" className="animate-pulse" />
+      <text x="603" y="28" fill="#1A6636" fontSize={9.5} fontFamily="system-ui" fontWeight="500">AI scoring on · live</text>
+      <rect x="698" y="13" width="84" height="22" rx="5" fill="#111010" />
+      <text x="740" y="28" fill="#fff" fontSize={10} fontFamily="system-ui" fontWeight="600" textAnchor="middle">+ Add Deal</text>
 
-      {/* KPI tiles */}
-      {kpis.map((k, i) => {
-        const x = 148 + i * 217
-        const pts = spark(k.spark, x + 12, 130, 140, 30)
+      {/* Pipeline columns */}
+      {cols.map((col, ci) => {
+        const x = 12 + ci * 196
+        const colCards = cards[ci]
         return (
-          <g key={i}>
-            <rect x={x} y="80" width="210" height="118" fill="#0C1410" />
-            <line x1={x} y1="80" x2={x + 210} y2="80" stroke="#172519" strokeWidth={0.8} />
-            <text x={x + 14} y="100" fill="#3A5244" fontSize={8} fontFamily="system-ui" letterSpacing={1.2}>{k.label}</text>
-            <text x={x + 14} y="126" fill="#F0EDE6" fontSize={28} fontWeight="700" fontFamily="system-ui">{k.val}</text>
-            <text x={x + 14} y="143" fill={k.c} fontSize={8.5} fontFamily="system-ui">{k.delta}</text>
-            <polyline points={pts} fill="none" stroke={k.c} strokeWidth={1.2} opacity={0.7} />
-            <line x1={x + 210} y1="80" x2={x + 210} y2="198" stroke="#172519" strokeWidth={0.8} />
+          <g key={col.label}>
+            <rect x={x} y={56} width={188} height={416} rx="8" fill={col.color} />
+            {/* Column header */}
+            <text x={x + 12} y={78} fill="#111010" fontSize={11} fontFamily="system-ui" fontWeight="700">{col.label}</text>
+            <rect x={x + 148} y={65} width={24} height={18} rx="9" fill="#111010" fillOpacity="0.1" />
+            <text x={x + 160} y={77} fill="#111010" fontSize={10} fontFamily="system-ui" textAnchor="middle" fontWeight="600">{col.count}</text>
+
+            {/* Cards */}
+            {colCards.map((card, cardi) => {
+              const cy = 94 + cardi * 110
+              return (
+                <g key={card.name}>
+                  <rect x={x + 8} y={cy} width={172} height={96} rx="7" fill="#ffffff" />
+                  <rect x={x + 8} y={cy} width={172} height={96} rx="7" stroke="#E8E8E8" strokeWidth="1" />
+                  {/* Company initial */}
+                  <circle cx={x + 28} cy={cy + 22} r="11" fill="#111010" fillOpacity="0.07" />
+                  <text x={x + 28} y={cy + 26} fill="#111010" fontSize={10} fontFamily="system-ui" textAnchor="middle" fontWeight="700">{card.name[0]}</text>
+                  <text x={x + 46} y={cy + 27} fill="#111010" fontSize={11} fontFamily="system-ui" fontWeight="600">{card.name}</text>
+                  {/* Tag */}
+                  <rect x={x + 12} y={cy + 40} width={46} height={16} rx="8" fill="#111010" fillOpacity="0.06" />
+                  <text x={x + 35} y={cy + 51} fill="#555" fontSize={9} fontFamily="system-ui" textAnchor="middle">{card.tag}</text>
+                  {/* Value */}
+                  <text x={x + 12} y={cy + 74} fill="#111010" fontSize={14} fontFamily="system-ui" fontWeight="700">{card.value}</text>
+                  {/* AI score badge */}
+                  {card.score && (
+                    <>
+                      <rect x={x + 132} y={cy + 38} width={40} height={20} rx="10" fill="#E6F4EC" />
+                      <text x={x + 152} y={cy + 51} fill="#1A6636" fontSize={10} fontFamily="system-ui" fontWeight="700" textAnchor="middle">★ {card.score}</text>
+                    </>
+                  )}
+                  {/* Score label */}
+                  {card.score && <text x={x + 132} y={cy + 74} fill="#aaa" fontSize={8.5} fontFamily="system-ui">AI score</text>}
+                </g>
+              )
+            })}
           </g>
         )
       })}
-      <rect x="148" y="80" width="504" height="118" fill="none" />
-      {/* last tile edge */}
-      <line x1="148" y1="198" x2="652" y2="198" stroke="#172519" strokeWidth={0.8} />
 
-      {/* Chart bg */}
-      <rect x="148" y="198" width="448" height="200" fill="#090D0B" />
-      {/* Grid */}
-      {gridYs.map((gy, i) => (
-        <g key={i}>
-          <line x1="160" y1={gy + 8} x2="590" y2={gy + 8} stroke="#172519" strokeWidth={0.6} />
-          <text x="152" y={gy + 12} fill="#3A5244" fontSize={8} fontFamily="system-ui" textAnchor="end">{gridLabels[i]}</text>
-        </g>
-      ))}
-      {/* Current week line */}
-      <line x1="776" y1="224" x2="776" y2="388" stroke="#2A5C3F" strokeWidth={0.6} strokeDasharray="3,3" strokeOpacity={0.5} />
-      {/* Area fill */}
-      <path d={area} fill="url(#ag)" />
-      {/* Line */}
-      <path d={line} fill="none" stroke="#2A5C3F" strokeWidth={1.8} />
-      {/* Latest point glow */}
-      <circle cx="776" cy="216" r="6" fill="#2A5C3F" filter="url(#glow2)" />
-      <circle cx="776" cy="216" r="3.5" fill="#F0EDE6" />
-      {/* Latest label */}
-      <rect x="740" y="200" width="52" height="18" rx={3} fill="#2A5C3F" />
-      <text x="766" y="212.5" fill="#F0EDE6" fontSize={9} fontFamily="system-ui" textAnchor="middle" fontWeight="500">$58.2k</text>
-      {/* Week labels */}
-      {weekLabels.map((wl, i) => (
-        <text key={i} x={weekXs[i]} y="402" fill="#3A5244" fontSize={8} fontFamily="system-ui" textAnchor="middle">{wl}</text>
-      ))}
-      <text x="168" y="215" fill="#3A5244" fontSize={8} fontFamily="system-ui" letterSpacing={1}>WEEKLY REVENUE — 8 WEEKS</text>
-
-      {/* AI Insights panel */}
-      <rect x="596" y="80" width="204" height="388" fill="#0C1410" />
-      <line x1="596" y1="80" x2="596" y2="468" stroke="#172519" strokeWidth={0.8} />
-      <text x="614" y="104" fill="#4A7A5E" fontSize={8} fontFamily="system-ui" letterSpacing={1.2}>CLAUDE INSIGHTS</text>
-      <line x1="614" y1="110" x2="786" y2="110" stroke="#172519" strokeWidth={0.5} />
-      {insights.map((ins, i) => (
-        <g key={i}>
-          <rect x="614" y={118 + i * 108} width="4" height="36" rx={2} fill="#2A5C3F" fillOpacity={0.7} />
-          {ins.text.match(/.{1,24}/g)!.slice(0, 5).map((line, li) => (
-            <text key={li} x="624" y={132 + i * 108 + li * 12} fill="#8AAF9B" fontSize={8.5} fontFamily="system-ui">{line}</text>
-          ))}
-        </g>
-      ))}
-
-      {/* Bottom strip */}
-      <rect x="148" y="398" width="448" height="70" fill="#090D0B" />
-      <line x1="148" y1="398" x2="596" y2="398" stroke="#172519" strokeWidth={0.6} />
+      {/* Bottom note */}
+      <rect x="0" y="448" width="800" height="32" fill="#F7F7F5" />
+      <text x="16" y="468" fill="#aaa" fontSize={9.5} fontFamily="system-ui">Leads auto-qualify via form + AI scoring  ·  Deals move stages when proposal is opened  ·  Won deals trigger onboarding workflow</text>
     </svg>
   )
 }
 
-// ─── Slide 3: Systems ─────────────────────────────────────────────────────────
-function SlideSystems() {
-  const workflows = [
-    { name: 'Lead Qualification',   status: 'Running',    sc: '#2A5C3F', runs: '1,247', rate: 98, last: '2 min ago'  },
-    { name: 'Client Onboarding',    status: 'Active (2)', sc: '#2A5C3F', runs: '94',    rate: 100, last: '11 min ago' },
-    { name: 'Content Distribution', status: 'Running',    sc: '#2A5C3F', runs: '389',   rate: 96, last: '58 min ago' },
-    { name: 'Weekly Reporting',     status: 'Scheduled',  sc: '#C06044', runs: '52',    rate: 100, last: 'Mon 7:00 AM'},
-    { name: 'CRM Intelligence',     status: 'Idle',       sc: '#3A5244', runs: '28',    rate: 93, last: '3 days ago'  },
-  ]
-  const nodes = ['Website Form', 'n8n', 'Claude API', 'HubSpot', 'Slack']
-  const nodeColors = ['#172519', '#1C3324', '#2A5C3F', '#172519', '#172519']
-  const runs = [
-    { time: '2:14 PM', dur: '1.4s', name: 'Emma Chen',   score: '9.2' },
-    { time: '2:08 PM', dur: '1.3s', name: 'Jordan P.',   score: '2.1' },
-    { time: '1:52 PM', dur: '1.6s', name: 'Alex Torres', score: '7.8' },
-    { time: '1:44 PM', dur: '1.4s', name: 'Kim Yu',      score: '4.5' },
-  ]
+// ─── Slide 3: Slack-style automated weekly digest ─────────────────────────────
+function SlideSlack() {
   return (
-    <svg viewBox="0 0 800 480" className="w-full h-full" aria-label="Systems mockup">
-      <rect width="800" height="480" fill="#0A0F0D" />
-      <Chrome view="systems" />
+    <svg viewBox="0 0 800 480" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+      <rect width="800" height="480" fill="#ffffff" />
+      {/* Window chrome */}
+      <rect width="800" height="48" fill="#F7F7F5" />
+      <circle cx="20" cy="24" r="6" fill="#FFBD2E" />
+      <circle cx="40" cy="24" r="6" fill="#28C840" />
+      <circle cx="60" cy="24" r="6" fill="#FF6159" />
+      <text x="88" y="30" fill="#111010" fontSize={13} fontWeight="600" fontFamily="system-ui"># weekly-reporting — Neith AI Workspace</text>
 
-      {/* Left: workflow list */}
-      <rect x="148" y="44" width="280" height="436" fill="#090D0B" />
-      <rect x="148" y="44" width="280" height="34" fill="#0C1410" />
-      <text x="164" y="65" fill="#F0EDE6" fontSize={11} fontWeight="500" fontFamily="system-ui">Active Systems</text>
-      <line x1="148" y1="78" x2="428" y2="78" stroke="#172519" strokeWidth={0.8} />
-      {workflows.map((wf, i) => (
-        <g key={i}>
-          <rect x="148" y={78 + i * 72} width="280" height="72"
-            fill={i === 0 ? '#0F1D16' : '#090D0B'} />
-          {i === 0 && <rect x="148" y={78} width="3" height="72" fill="#2A5C3F" />}
-          <line x1="148" y1={150 + i * 72} x2="428" y2={150 + i * 72} stroke="#172519" strokeWidth={0.5} />
-          <circle cx="172" cy={114 + i * 72} r="4.5" fill={wf.sc} fillOpacity={i === 3 ? 0.6 : 1} />
-          <text x="184" y={108 + i * 72} fill={i < 3 ? '#D0DDD8' : i === 3 ? '#8AAF9B' : '#4A7A5E'}
-            fontSize={10.5} fontWeight="500" fontFamily="system-ui">{wf.name}</text>
-          <text x="184" y={122 + i * 72} fill={wf.sc} fontSize={8.5} fontFamily="system-ui">{wf.status}</text>
-          <text x="184" y={135 + i * 72} fill="#3A5244" fontSize={8} fontFamily="system-ui">{wf.last} · {wf.runs} runs</text>
-          {/* Success rate bar */}
-          <rect x="184" y={140 + i * 72} width="108" height="3" rx={1.5} fill="#172519" />
-          <rect x="184" y={140 + i * 72} width={wf.rate * 1.08} height="3" rx={1.5} fill={wf.sc} fillOpacity={0.7} />
+      {/* Sidebar */}
+      <rect x="0" y="48" width="220" height="432" fill="#F7F7F5" />
+      <text x="16" y="76" fill="#888" fontSize={9} fontFamily="system-ui" letterSpacing={1.2}>CHANNELS</text>
+      {['# general', '# weekly-reporting', '# client-alerts', '# new-leads', '# team'].map((ch, i) => (
+        <g key={ch}>
+          {i === 1 && <rect x="4" y={86 + i * 30} width="212" height="26" rx="5" fill="#111010" fillOpacity="0.08" />}
+          <text x="16" y={103 + i * 30} fill={i === 1 ? '#111010' : '#777'} fontSize={12} fontFamily="system-ui" fontWeight={i === 1 ? '600' : '400'}>{ch}</text>
+        </g>
+      ))}
+      <text x="16" y="250" fill="#888" fontSize={9} fontFamily="system-ui" letterSpacing={1.2}>DIRECT MESSAGES</text>
+      {['Neith Bot', 'Kai S.', 'Nicolas A.'].map((dm, i) => (
+        <g key={dm}>
+          <circle cx="28" cy={268 + i * 28} r="8" fill={i === 0 ? '#2A5C3F' : '#ddd'} />
+          <text x="28" y={272 + i * 28} fill="#fff" fontSize={8} fontFamily="system-ui" textAnchor="middle">{dm[0]}</text>
+          <text x="44" y={272 + i * 28} fill="#666" fontSize={11.5} fontFamily="system-ui">{dm}</text>
         </g>
       ))}
 
-      {/* Right: selected workflow detail */}
-      <rect x="428" y="44" width="372" height="436" fill="#090D0B" />
-      <rect x="428" y="44" width="372" height="34" fill="#0C1410" />
-      <line x1="428" y1="44" x2="428" y2="480" stroke="#172519" strokeWidth={0.8} />
-      <text x="444" y="65" fill="#F0EDE6" fontSize={11} fontWeight="500" fontFamily="system-ui">Lead Qualification</text>
-      <circle cx="568" cy="62" r="4" fill="#2A5C3F" className="animate-pulse" />
-      <text x="578" y="66" fill="#2A5C3F" fontSize={8.5} fontFamily="system-ui">Running</text>
-      <line x1="428" y1="78" x2="800" y2="78" stroke="#172519" strokeWidth={0.8} />
+      {/* Chat area */}
+      <rect x="220" y="48" width="580" height="432" fill="#ffffff" />
 
-      {/* Flow diagram */}
-      <text x="444" y="102" fill="#3A5244" fontSize={8} fontFamily="system-ui" letterSpacing={1}>PIPELINE</text>
-      {nodes.map((n, i) => {
-        const x = 444 + i * 66
-        const isActive = i === 2
-        return (
-          <g key={i}>
-            {i > 0 && <line x1={x - 9} y1="122" x2={x + 1} y2="122" stroke={i <= 2 ? '#2A5C3F' : '#172519'} strokeWidth={0.8} />}
-            <rect x={x} y="112" width={58} height="20" rx={3} fill={nodeColors[i]} stroke={isActive ? '#2A5C3F' : '#1A2B22'} strokeWidth={isActive ? 1.2 : 0.6} />
-            <text x={x + 29} y="125" fill={isActive ? '#F0EDE6' : '#8AAF9B'} fontSize={7.5} fontFamily="system-ui" textAnchor="middle">{n}</text>
-          </g>
-        )
-      })}
+      {/* Channel header */}
+      <rect x="220" y="48" width="580" height="44" fill="#ffffff" />
+      <rect x="220" y="91" width="580" height="1" fill="#E8E8E8" />
+      <text x="238" y="76" fill="#111010" fontSize={13} fontWeight="700" fontFamily="system-ui"># weekly-reporting</text>
+      <text x="238" y="90" fill="#aaa" fontSize={10} fontFamily="system-ui">Auto-posted every Monday at 8:00 AM by Neith Bot</text>
 
-      {/* Recent runs */}
-      <text x="444" y="158" fill="#3A5244" fontSize={8} fontFamily="system-ui" letterSpacing={1}>RECENT EXECUTIONS</text>
-      <line x1="444" y1="164" x2="786" y2="164" stroke="#172519" strokeWidth={0.5} />
-      {/* column labels */}
-      {['TIME', 'DURATION', 'LEAD', 'SCORE', 'STATUS'].map((h, i) => {
-        const xs = [444, 506, 566, 672, 732]
-        return <text key={i} x={xs[i]} y="180" fill="#3A5244" fontSize={7.5} fontFamily="system-ui" letterSpacing={0.8}>{h}</text>
-      })}
-      <line x1="444" y1="185" x2="786" y2="185" stroke="#172519" strokeWidth={0.5} />
-      {runs.map((r, i) => {
-        const score = parseFloat(r.score)
-        const hot = score >= 7
-        return (
-          <g key={i}>
-            <rect x="428" y={188 + i * 38} width="372" height="38" fill={i % 2 === 0 ? '#0A0F0D' : '#0C1410'} />
-            <text x="444" y={211 + i * 38} fill="#6A9A7E" fontSize={9} fontFamily="system-ui">{r.time}</text>
-            <text x="506" y={211 + i * 38} fill="#4A7A5E" fontSize={9} fontFamily="system-ui">{r.dur}</text>
-            <text x="566" y={211 + i * 38} fill="#C8D5CE" fontSize={9} fontFamily="system-ui">{r.name}</text>
-            <rect x="668" y={200 + i * 38} width="32" height="16" rx={8} fill={hot ? '#2A5C3F' : '#1A2B22'} />
-            <text x="684" y={211 + i * 38} fill={hot ? '#F0EDE6' : '#4A7A5E'} fontSize={8.5} fontFamily="system-ui" textAnchor="middle">{r.score}</text>
-            <circle cx="740" cy={208 + i * 38} r="3.5" fill="#2A5C3F" />
-            <text x="750" y={212 + i * 38} fill="#4A7A5E" fontSize={8.5} fontFamily="system-ui">success</text>
-          </g>
-        )
-      })}
+      {/* Date separator */}
+      <rect x="238" y="108" width="544" height="1" fill="#E8E8E8" />
+      <rect x="354" y="101" width="74" height="16" rx="8" fill="#ffffff" stroke="#E8E8E8" strokeWidth="1" />
+      <text x="391" y="113" fill="#999" fontSize={9} fontFamily="system-ui" textAnchor="middle">Mon, Jun 17</text>
+
+      {/* Bot message */}
+      <circle cx="252" cy="145" r="16" fill="#2A5C3F" />
+      <text x="252" y="150" fill="#fff" fontSize={12} fontFamily="system-ui" textAnchor="middle" fontWeight="700">N</text>
+      <text x="276" y="140" fill="#111010" fontSize={12} fontFamily="system-ui" fontWeight="700">Neith Bot</text>
+      <rect x="276" y="128" width="46" height="14" rx="7" fill="#E6F4EC" />
+      <text x="299" y="139" fill="#1A6636" fontSize={8.5} fontFamily="system-ui" fontWeight="600" textAnchor="middle">APP</text>
+      <text x="330" y="140" fill="#aaa" fontSize={10} fontFamily="system-ui">8:00 AM</text>
+
+      {/* Message card */}
+      <rect x="276" y="152" width="502" height="268" rx="8" fill="#ffffff" stroke="#E0E0E0" strokeWidth="1" />
+      {/* Card header */}
+      <rect x="276" y="152" width="502" height="44" rx="8" fill="#111010" />
+      <rect x="276" y="172" width="502" height="24" fill="#111010" />
+      <text x="298" y="179" fill="#fff" fontSize={13} fontFamily="system-ui" fontWeight="700">Weekly Performance Brief</text>
+      <text x="298" y="192" fill="#aaa" fontSize={9.5} fontFamily="system-ui">Week of June 10–16, 2024  ·  Generated by Neith AI</text>
 
       {/* Stats row */}
-      <line x1="428" y1="342" x2="800" y2="342" stroke="#172519" strokeWidth={0.8} />
       {[
-        { l: 'LIFETIME RUNS', v: '1,247' },
-        { l: 'AVG DURATION', v: '1.4s' },
-        { l: 'SUCCESS RATE', v: '98.2%' },
-        { l: 'TRIGGER', v: 'Webhook' },
-      ].map((s, i) => (
-        <g key={i}>
-          <text x={444 + i * 88} y="362" fill="#3A5244" fontSize={7.5} fontFamily="system-ui" letterSpacing={0.8}>{s.l}</text>
-          <text x={444 + i * 88} y="384" fill="#F0EDE6" fontSize={16} fontWeight="600" fontFamily="system-ui">{s.v}</text>
+        { label: 'Revenue', value: '$58,200', delta: '+12%', good: true },
+        { label: 'New Leads', value: '23', delta: '+5', good: true },
+        { label: 'Deals Closed', value: '4', delta: '—', good: null },
+        { label: 'Avg Response', value: '1.8 hrs', delta: '-34%', good: true },
+      ].map((stat, i) => (
+        <g key={stat.label}>
+          <rect x={288 + i * 122} y="210" width="110" height="68" rx="6" fill="#F9F9F9" />
+          <text x={343 + i * 122} y="231" fill="#999" fontSize={9} fontFamily="system-ui" textAnchor="middle" letterSpacing={0.8}>{stat.label.toUpperCase()}</text>
+          <text x={343 + i * 122} y="254" fill="#111010" fontSize={18} fontFamily="system-ui" fontWeight="700" textAnchor="middle">{stat.value}</text>
+          {stat.good !== null && (
+            <rect x={318 + i * 122} y="260" width="50" height="14" rx="7" fill={stat.good ? '#E6F4EC' : '#FEE2E2'} />
+          )}
+          <text x={343 + i * 122} y="271" fill={stat.good ? '#1A6636' : stat.good === false ? '#991B1B' : '#999'} fontSize={9} fontFamily="system-ui" textAnchor="middle" fontWeight="600">{stat.delta}</text>
         </g>
       ))}
+
+      {/* Divider */}
+      <rect x="290" y="288" width="476" height="1" fill="#EFEFEF" />
+
+      {/* AI summary */}
+      <text x="290" y="308" fill="#aaa" fontSize={9} fontFamily="system-ui" fontWeight="600" letterSpacing={1}>AI SUMMARY</text>
+      <text x="290" y="326" fill="#333" fontSize={11} fontFamily="system-ui">Strong week. Revenue up 12% driven by Oaks Advisory close ($7.2k). Lead volume</text>
+      <text x="290" y="342" fill="#333" fontSize={11} fontFamily="system-ui">healthy — 8 from referral channel (highest this month). Response time improvement</text>
+      <text x="290" y="358" fill="#333" fontSize={11} fontFamily="system-ui">reflects new intake automation. No follow-up needed — next digest Mon Jun 24.</text>
+
+      {/* Divider */}
+      <rect x="290" y="370" width="476" height="1" fill="#EFEFEF" />
+
+      {/* Action buttons */}
+      <rect x="290" y="380" width="108" height="28" rx="6" fill="#F3F4F6" />
+      <text x="344" y="398" fill="#333" fontSize={10} fontFamily="system-ui" textAnchor="middle" fontWeight="500">View full report</text>
+      <rect x="406" y="380" width="96" height="28" rx="6" fill="#F3F4F6" />
+      <text x="454" y="398" fill="#333" fontSize={10} fontFamily="system-ui" textAnchor="middle" fontWeight="500">All deals →</text>
     </svg>
   )
 }
 
-// ─── Slide 4: Intelligence Brief ──────────────────────────────────────────────
-function SlideReports() {
-  const channels = [
-    { name: 'Amazon Vendor',  rev: '$24,100', delta: '+14%', share: 41, c: '#2A5C3F' },
-    { name: 'Walmart Connect', rev: '$18,600', delta: '+31%', share: 32, c: '#2A5C3F' },
-    { name: 'Paid Social',    rev: '$9,400',  delta: '+8%',  share: 16, c: '#C06044' },
-    { name: 'Direct / Email', rev: '$6,100',  delta: '+4%',  share: 11, c: '#3A5244' },
-  ]
-  const areaLine = 'M 164,350 Q 208,332 252,314 Q 296,324 340,332 Q 384,308 428,282 Q 472,288 516,296 Q 560,264 604,234 Q 648,244 692,252 Q 736,226 780,204'
-  const areaFill = 'M 164,370 L 164,350 Q 208,332 252,314 Q 296,324 340,332 Q 384,308 428,282 Q 472,288 516,296 Q 560,264 604,234 Q 648,244 692,252 Q 736,226 780,204 L 780,370 Z'
-  const commentary = [
-    'Walmart Connect delivered the strongest WoW growth at +31%, driven entirely by the',
-    'automated reorder alert system deployed in Week 5. Amazon held steady at +14%.',
-    'Paid social ROAS improved to 4.1× after Claude began rewriting ad copy variants.',
-    'Recommendation: allocate 15% of June Paid Social budget to Walmart Sponsored Brands.',
+// ─── Slide 4: Airtable-style reporting base ────────────────────────────────────
+function SlideAirtable() {
+  const weeks = [
+    { week: 'Jun 3–9', rev: '$44,100', deals: 3, leads: 18, flag: null },
+    { week: 'Jun 10–16', rev: '$58,200', deals: 4, leads: 23, flag: 'up' },
+    { week: 'Jun 17–23', rev: '$51,800', deals: 3, leads: 20, flag: null },
+    { week: 'Jun 24–30', rev: '$62,400', deals: 5, leads: 27, flag: 'up' },
   ]
   return (
-    <svg viewBox="0 0 800 480" className="w-full h-full" aria-label="Intelligence brief mockup">
-      <defs>
-        <linearGradient id="rg" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#2A5C3F" stopOpacity={0.4} />
-          <stop offset="100%" stopColor="#2A5C3F" stopOpacity={0} />
-        </linearGradient>
-      </defs>
-      <rect width="800" height="480" fill="#0A0F0D" />
-      <Chrome view="reports" />
+    <svg viewBox="0 0 800 480" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+      <rect width="800" height="480" fill="#ffffff" />
+      {/* Window chrome */}
+      <rect width="800" height="48" fill="#F7F7F5" />
+      <circle cx="20" cy="24" r="6" fill="#FFBD2E" />
+      <circle cx="40" cy="24" r="6" fill="#28C840" />
+      <circle cx="60" cy="24" r="6" fill="#FF6159" />
+      <text x="88" y="30" fill="#111010" fontSize={13} fontWeight="600" fontFamily="system-ui">Weekly Metrics — Auto-fill Base</text>
 
-      {/* Report area */}
-      <rect x="148" y="44" width="652" height="436" fill="#090D0B" />
-      <rect x="148" y="44" width="652" height="38" fill="#0C1410" />
-      <text x="164" y="63" fill="#F0EDE6" fontSize={11} fontWeight="500" fontFamily="system-ui">Intelligence Brief  ·  Week of July 7, 2025</text>
-      <circle cx="720" cy="63" r="3.5" fill="#C06044" />
-      <text x="730" y="67" fill="#C06044" fontSize={8} fontFamily="system-ui">Delivered Mon 7:00 AM</text>
-      <line x1="148" y1="82" x2="800" y2="82" stroke="#172519" strokeWidth={0.8} />
-
-      {/* Hero metric */}
-      <text x="164" y="110" fill="#3A5244" fontSize={8.5} fontFamily="system-ui" letterSpacing={1.2}>TOTAL REVENUE THIS WEEK</text>
-      <text x="164" y="158" fill="#F0EDE6" fontSize={54} fontWeight="700" fontFamily="system-ui">$58,200</text>
-      <rect x="164" y="168" width="66" height="20" rx={3} fill="#2A5C3F" fillOpacity={0.2} />
-      <text x="197" y="181" fill="#2A5C3F" fontSize={9} fontFamily="system-ui" textAnchor="middle" fontWeight="500">+18% WoW</text>
-      <text x="244" y="181" fill="#3A5244" fontSize={8.5} fontFamily="system-ui">vs $49,300 last week</text>
-
-      {/* Sparkline */}
-      <path d={areaFill} fill="url(#rg)" />
-      <path d={areaLine} fill="none" stroke="#2A5C3F" strokeWidth={1.5} />
-      <circle cx="780" cy="204" r="4" fill="#2A5C3F" />
-      <circle cx="780" cy="204" r="2" fill="#F0EDE6" />
-      <line x1="164" y1="370" x2="780" y2="370" stroke="#172519" strokeWidth={0.5} />
-      {['May 19', 'May 26', 'Jun 9', 'Jun 23', 'Jul 7'].map((wl, i) => (
-        <text key={i} x={[164,252,428,604,780][i]} y="382" fill="#3A5244" fontSize={7.5} fontFamily="system-ui" textAnchor="middle">{wl}</text>
+      {/* Sidebar */}
+      <rect x="0" y="48" width="190" height="432" fill="#F7F7F5" />
+      {['Grid view', 'Chart view', 'Summary', 'Exports'].map((item, i) => (
+        <g key={item}>
+          {i === 0 && <rect x="4" y={63 + i * 32} width="182" height="26" rx="5" fill="#111010" fillOpacity="0.08" />}
+          <text x="18" y={80 + i * 32} fill={i === 0 ? '#111010' : '#777'} fontSize={12} fontFamily="system-ui" fontWeight={i === 0 ? '600' : '400'}>{item}</text>
+        </g>
       ))}
-
-      {/* Channel breakdown */}
-      <line x1="556" y1="82" x2="556" y2="392" stroke="#172519" strokeWidth={0.8} />
-      <text x="572" y="105" fill="#3A5244" fontSize={8} fontFamily="system-ui" letterSpacing={1.2}>CHANNEL BREAKDOWN</text>
-      {channels.map((ch, i) => (
-        <g key={i}>
-          <text x="572" y={128 + i * 60} fill="#6A9A7E" fontSize={9} fontFamily="system-ui">{ch.name}</text>
-          <text x="572" y={146 + i * 60} fill="#F0EDE6" fontSize={17} fontWeight="600" fontFamily="system-ui">{ch.rev}</text>
-          <rect x="648" y={137 + i * 60} width={ch.share * 1.3} height={10} rx={2} fill={ch.c} fillOpacity={0.6} />
-          <text x="572" y={160 + i * 60} fill={ch.c} fontSize={8} fontFamily="system-ui">{ch.delta} WoW</text>
+      <rect x="4" y="190" width="182" height="1" fill="#E0E0E0" />
+      <text x="12" y="212" fill="#aaa" fontSize={9} fontFamily="system-ui" letterSpacing={1}>AUTOMATIONS</text>
+      {['Auto-fill on Monday', 'Flag anomalies', 'Email on close'].map((a, i) => (
+        <g key={a}>
+          <rect x="10" y={222 + i * 34} width="170" height="26" rx="5" fill="#ffffff" stroke="#E8E8E8" strokeWidth="1" />
+          <circle cx="24" cy={235 + i * 34} r="5" fill="#E6F4EC" />
+          <circle cx="24" cy={235 + i * 34} r="2.5" fill="#2A5C3F" />
+          <text x="36" y={239 + i * 34} fill="#555" fontSize={10} fontFamily="system-ui">{a}</text>
         </g>
       ))}
 
-      {/* Commentary */}
-      <line x1="148" y1="392" x2="556" y2="392" stroke="#172519" strokeWidth={0.8} />
-      <text x="164" y="410" fill="#3A5244" fontSize={8} fontFamily="system-ui" letterSpacing={1.2}>CLAUDE COMMENTARY</text>
-      {commentary.map((line, i) => (
-        <text key={i} x="164" y={424 + i * 12} fill="#6A9A7E" fontSize={8.5} fontFamily="system-ui">{line}</text>
-      ))}
+      {/* Main grid */}
+      <rect x="190" y="48" width="610" height="432" fill="#ffffff" />
+
+      {/* Toolbar */}
+      <rect x="190" y="52" width="610" height="36" fill="#ffffff" />
+      <rect x="190" y="87" width="610" height="1" fill="#E0E0E0" />
+      <rect x="200" y="60" width="80" height="20" rx="4" fill="#111010" />
+      <text x="240" y="74" fill="#fff" fontSize={10} fontFamily="system-ui" textAnchor="middle" fontWeight="600">+ Add row</text>
+      <rect x="290" y="60" width="72" height="20" rx="4" fill="none" stroke="#E0E0E0" strokeWidth="1" />
+      <text x="326" y="74" fill="#666" fontSize={10} fontFamily="system-ui" textAnchor="middle">Filter</text>
+      <rect x="640" y="58" width="148" height="22" rx="5" fill="#E6F4EC" />
+      <circle cx="654" cy="69" r="3.5" fill="#2A5C3F" className="animate-pulse" />
+      <text x="663" y="73" fill="#1A6636" fontSize={9.5} fontFamily="system-ui" fontWeight="500">Auto-fills every Monday</text>
+
+      {/* Table header */}
+      <rect x="190" y="88" width="610" height="30" fill="#F9F9F9" />
+      {['Week', 'Revenue', 'Deals Closed', 'New Leads', 'Status', 'Auto-filled'].map((h, i) => {
+        const xs = [204, 310, 400, 490, 568, 660]
+        return (
+          <text key={h} x={xs[i]} y="108" fill="#999" fontSize={9} fontFamily="system-ui" fontWeight="700" letterSpacing={0.8}>{h.toUpperCase()}</text>
+        )
+      })}
+
+      {/* Rows */}
+      {weeks.map((w, i) => {
+        const y = 118 + i * 64
+        return (
+          <g key={w.week}>
+            <rect x="190" y={y} width="610" height="64" fill={i % 2 === 0 ? '#ffffff' : '#FAFAFA'} />
+            <rect x="190" y={y + 63} width="610" height="1" fill="#EFEFEF" />
+            {/* Row expand */}
+            <rect x="196" y={y + 22} width="18" height="18" rx="3" fill="#F3F4F6" />
+            <text x="205" y={y + 35} fill="#999" fontSize={10} fontFamily="system-ui" textAnchor="middle">↗</text>
+            <text x="222" y={y + 35} fill="#111010" fontSize={12} fontFamily="system-ui" fontWeight="500">{w.week}</text>
+            <text x="310" y={y + 35} fill="#111010" fontSize={13} fontFamily="system-ui" fontWeight="700">{w.rev}</text>
+            <text x="400" y={y + 35} fill="#555" fontSize={12} fontFamily="system-ui">{w.deals}</text>
+            <text x="490" y={y + 35} fill="#555" fontSize={12} fontFamily="system-ui">{w.leads}</text>
+            {/* Status */}
+            {w.flag === 'up'
+              ? <><rect x="560" y={y + 22} width="60" height="20" rx="10" fill="#E6F4EC" /><text x="590" y={y + 36} fill="#1A6636" fontSize={9.5} fontFamily="system-ui" fontWeight="600" textAnchor="middle">▲ Strong</text></>
+              : <><rect x="560" y={y + 22} width="60" height="20" rx="10" fill="#F3F4F6" /><text x="590" y={y + 36} fill="#666" fontSize={9.5} fontFamily="system-ui" fontWeight="500" textAnchor="middle">Steady</text></>
+            }
+            {/* Auto-fill badge */}
+            <rect x="650" y={y + 22} width="72" height="20" rx="10" fill="#F0FDF4" stroke="#BBF7D0" strokeWidth="1" />
+            <text x="686" y={y + 36} fill="#15803D" fontSize={9.5} fontFamily="system-ui" fontWeight="600" textAnchor="middle">✓ Auto</text>
+          </g>
+        )
+      })}
+
+      {/* Totals row */}
+      <rect x="190" y="374" width="610" height="40" fill="#F9F9F9" />
+      <rect x="190" y="374" width="610" height="1" fill="#E0E0E0" />
+      <text x="222" y="400" fill="#999" fontSize={10} fontFamily="system-ui" fontWeight="700">TOTAL / AVG</text>
+      <text x="310" y="400" fill="#111010" fontSize={13} fontFamily="system-ui" fontWeight="800">$216,500</text>
+      <text x="400" y="400" fill="#111010" fontSize={12} fontFamily="system-ui" fontWeight="700">15</text>
+      <text x="490" y="400" fill="#111010" fontSize={12} fontFamily="system-ui" fontWeight="700">88</text>
+
+      {/* Bottom note */}
+      <rect x="190" y="430" width="610" height="38" fill="#F7F7F5" />
+      <text x="204" y="453" fill="#aaa" fontSize={9.5} fontFamily="system-ui">Rows auto-created each Monday  ·  Revenue pulled from pipeline  ·  Anomalies flagged automatically and sent to Slack</text>
     </svg>
   )
 }
 
-// ─── Carousel shell ───────────────────────────────────────────────────────────
+// ─── Slides config ─────────────────────────────────────────────────────────────
 const SLIDES = [
   {
-    el: <SlideFeed />,
-    caption: 'Live Feed — every automation action timestamped and traceable in real time. Leads scored, deals created, emails sent. Nothing falls through the gap.',
+    el: <SlideNotion />,
+    tool: 'Notion',
+    caption: 'Client Onboarding — new clients auto-populate when an intake form is submitted. Tasks are generated by AI on entry, status updates itself.',
   },
   {
-    el: <SlideAnalytics />,
-    caption: 'Analytics — eight weeks of revenue in one view, with Claude surfacing the patterns your team would otherwise spend hours finding manually.',
+    el: <SlidePipeline />,
+    tool: 'CRM Pipeline',
+    caption: 'Lead Qualification — inbound leads are scored by AI the moment they arrive. High-fit leads move stages automatically; low-fit are flagged.',
   },
   {
-    el: <SlideSystems />,
-    caption: 'Systems — every workflow, its run count, success rate, and last execution. The selected view shows each lead processed, scored, and routed.',
+    el: <SlideSlack />,
+    tool: 'Slack',
+    caption: 'Weekly Digest — every Monday at 8 AM your team receives a structured performance brief written by AI. No manual reporting.',
   },
   {
-    el: <SlideReports />,
-    caption: 'Intelligence Brief — delivered to your leadership inbox every Monday at 7 AM. Sourced, written, and formatted by Claude. Zero human hours.',
+    el: <SlideAirtable />,
+    tool: 'Reporting Base',
+    caption: 'Auto-filled Metrics — weekly rows are created and populated from your pipeline data. Anomalies are flagged and routed to Slack automatically.',
   },
 ]
 
+// ─── Carousel wrapper ──────────────────────────────────────────────────────────
 export default function MockupCarousel() {
   const [idx, setIdx] = useState(0)
   const prev = () => setIdx(i => (i - 1 + SLIDES.length) % SLIDES.length)
   const next = () => setIdx(i => (i + 1) % SLIDES.length)
 
   return (
-    <section className="py-16 md:py-20 overflow-hidden" aria-label="Platform preview">
-      <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        <div className="flex items-center gap-4 mb-8">
-          <p className="font-body text-xs tracking-label uppercase text-dust whitespace-nowrap">Platform preview</p>
-          <div className="flex-1 overflow-hidden">
-            <svg viewBox="0 0 400 40" preserveAspectRatio="none" className="w-full h-6" aria-hidden="true">
-              <path d="M0 20 C67 2,133 38,200 20 C267 2,333 38,400 20" stroke="#C8C2B8" strokeWidth="1.6" fill="none" strokeLinecap="round" />
-            </svg>
-          </div>
+    <section className="py-24 bg-paper">
+      <div className="max-w-5xl mx-auto px-6 lg:px-12">
+        {/* Label */}
+        <div className="flex items-center gap-3 mb-10">
+          <span className="font-body text-xs tracking-label uppercase text-dust">What it looks like in practice</span>
+          <svg viewBox="0 0 60 4" className="flex-1 max-w-[120px]" fill="none">
+            <path d="M0 2 Q15 0 30 2 Q45 4 60 2" stroke="#ADA69B" strokeWidth="1" />
+          </svg>
         </div>
 
-        <div className="relative">
-          <div className="relative overflow-hidden border border-[#172519]" style={{ aspectRatio: '5/3' }}>
-            {SLIDES.map((slide, i) => (
-              <div key={i}
-                className={`absolute inset-0 transition-opacity duration-500 ${i === idx ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
-                aria-hidden={i !== idx}
+        {/* Slide counter + nav */}
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-3">
+            {SLIDES.map((s, i) => (
+              <button
+                key={i}
+                onClick={() => setIdx(i)}
+                className={`font-body text-xs tracking-label uppercase transition-colors duration-200 ${
+                  i === idx ? 'text-ink font-semibold' : 'text-dust hover:text-slate'
+                }`}
               >
-                {slide.el}
-              </div>
+                {s.tool}
+              </button>
             ))}
           </div>
-
-          <button onClick={prev}
-            className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center
-                       bg-[#0B1310]/80 hover:bg-[#172519] text-[#4A7A5E] hover:text-[#F0EDE6]
-                       transition-colors duration-200 border border-[#172519]
-                       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
-            aria-label="Previous">
-            <svg viewBox="0 0 10 18" className="w-2.5" fill="none" aria-hidden="true">
-              <path d="M8 2 L2 9 L8 16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-
-          <button onClick={next}
-            className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center
-                       bg-[#0B1310]/80 hover:bg-[#172519] text-[#4A7A5E] hover:text-[#F0EDE6]
-                       transition-colors duration-200 border border-[#172519]
-                       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
-            aria-label="Next">
-            <svg viewBox="0 0 10 18" className="w-2.5" fill="none" aria-hidden="true">
-              <path d="M2 2 L8 9 L2 16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={prev}
+              aria-label="Previous slide"
+              className="w-8 h-8 rounded-full border border-bone flex items-center justify-center text-slate hover:border-ink transition-colors duration-200"
+            >
+              <svg viewBox="0 0 12 12" className="w-3 h-3" fill="none">
+                <path d="M7 2 L3 6 L7 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+            <button
+              onClick={next}
+              aria-label="Next slide"
+              className="w-8 h-8 rounded-full border border-bone flex items-center justify-center text-slate hover:border-ink transition-colors duration-200"
+            >
+              <svg viewBox="0 0 12 12" className="w-3 h-3" fill="none">
+                <path d="M5 2 L9 6 L5 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+          </div>
         </div>
 
-        <div className="mt-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <p className="font-body text-sm text-slate leading-relaxed max-w-xl">
-            {SLIDES[idx].caption}
-          </p>
-          <div className="flex gap-2 shrink-0">
-            {SLIDES.map((_, i) => (
-              <button key={i} onClick={() => setIdx(i)}
-                className={`h-1.5 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand ${
-                  i === idx ? 'w-8 bg-brand' : 'w-4 bg-bone hover:bg-dust'}`}
-                aria-label={`Slide ${i + 1}`} />
-            ))}
-          </div>
+        {/* Mockup frame */}
+        <div
+          className="relative rounded-xl overflow-hidden border border-bone shadow-sm"
+          style={{ aspectRatio: '5/3' }}
+        >
+          {SLIDES.map((s, i) => (
+            <div
+              key={i}
+              className="absolute inset-0 transition-opacity duration-400"
+              style={{ opacity: i === idx ? 1 : 0, pointerEvents: i === idx ? 'auto' : 'none' }}
+            >
+              {s.el}
+            </div>
+          ))}
+        </div>
+
+        {/* Caption */}
+        <p className="mt-6 font-body text-sm text-slate/70 max-w-2xl">
+          {SLIDES[idx].caption}
+        </p>
+
+        {/* Dot indicators */}
+        <div className="flex gap-2 mt-4">
+          {SLIDES.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setIdx(i)}
+              aria-label={`Go to slide ${i + 1}`}
+              className={`h-1 rounded-full transition-all duration-300 ${
+                i === idx ? 'w-6 bg-ink' : 'w-2 bg-bone'
+              }`}
+            />
+          ))}
         </div>
       </div>
     </section>
