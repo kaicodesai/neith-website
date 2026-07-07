@@ -1,4 +1,5 @@
 import ContactForm from '@/components/ContactForm'
+import MockupCarousel from '@/components/MockupCarousel'
 
 // ─── Shared primitives ────────────────────────────────────────────────────────
 
@@ -999,6 +1000,7 @@ export default function Page() {
     <>
       <Hero />
       <Services />
+      <MockupCarousel />
       <SystemsBuilt />
       {/* paper → ink */}
       <WaveDivider from="#F0EDE6" to="#111010" />
