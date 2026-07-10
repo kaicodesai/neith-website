@@ -436,13 +436,13 @@ export default function MockupCarousel() {
         </div>
 
         {/* Slide counter + nav */}
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between mb-6 gap-4">
+          <div className="flex items-center gap-4 overflow-x-auto scrollbar-none pb-0.5 min-w-0">
             {SLIDES.map((s, i) => (
               <button
                 key={i}
                 onClick={() => setIdx(i)}
-                className={`font-body text-xs tracking-label uppercase transition-colors duration-200 ${
+                className={`font-body text-xs tracking-label uppercase whitespace-nowrap transition-colors duration-200 shrink-0 ${
                   i === idx ? 'text-ink font-semibold' : 'text-dust hover:text-slate'
                 }`}
               >
@@ -450,7 +450,7 @@ export default function MockupCarousel() {
               </button>
             ))}
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 shrink-0">
             <button
               onClick={prev}
               aria-label="Previous slide"
