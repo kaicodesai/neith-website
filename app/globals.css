@@ -76,6 +76,13 @@
   transform-origin: bottom center;
 }
 
+/* Hide corner webs on mobile — SVGs ignore Tailwind opacity-0 due to paint ordering */
+@media (max-width: 767px) {
+  .corner-web-mobile-hide {
+    display: none !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;

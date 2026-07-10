@@ -475,11 +475,11 @@ const systems: {
 function SystemsBuilt() {
   return (
     <section
-      className="relative py-24 md:py-32 overflow-hidden"
+      className="relative py-14 md:py-32 overflow-hidden"
       id="systems"
       aria-label="Systems in production"
     >
-      <MonsteraLeaf className="absolute -top-6 -right-4 w-44 h-auto text-ember opacity-20 pointer-events-none scale-x-[-1] hidden md:block" />
+      <MonsteraLeaf className="absolute -top-6 -right-4 w-24 md:w-44 h-auto text-ember opacity-12 md:opacity-20 pointer-events-none scale-x-[-1]" />
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         {/* Section header */}
         <div className="flex items-center gap-4 mb-0">
@@ -545,11 +545,15 @@ function SystemsBuilt() {
                   </div>
                 </div>
 
-                {/* Diagram — horizontally scrollable on small screens */}
-                <div className="md:pl-[76px] overflow-x-auto">
-                  <div style={{ minWidth: '480px' }}>
-                    <FlowDiagram nodes={sys.nodes} />
+                {/* Diagram — scrollable on mobile; fade hint at right edge */}
+                <div className="md:pl-[76px] relative">
+                  <div className="overflow-x-auto">
+                    <div style={{ minWidth: '560px' }}>
+                      <FlowDiagram nodes={sys.nodes} />
+                    </div>
                   </div>
+                  {/* Right fade to hint at scroll */}
+                  <div className="absolute top-0 right-0 h-full w-10 bg-gradient-to-l from-paper to-transparent pointer-events-none md:hidden" />
                 </div>
 
                 {/* Description */}
@@ -572,23 +576,21 @@ function SystemsBuilt() {
 function Hero() {
   return (
     <section
-      className="relative min-h-screen flex flex-col justify-center pt-24 pb-20 overflow-hidden"
+      className="relative min-h-[88vh] md:min-h-screen flex flex-col justify-center pt-20 pb-10 md:pt-24 md:pb-20 overflow-hidden"
       aria-label="Introduction"
     >
-      {/* Corner webs — hidden on mobile to keep hero clean */}
-      <CornerWeb className="absolute top-16 -left-2 w-[28rem] h-[28rem] opacity-[0.7] pointer-events-none hidden md:block" gradientFrom="#2A5C3F" gradientTo="#C06044" />
-      <CornerWeb flip className="absolute top-16 -right-2 w-[28rem] h-[28rem] opacity-[0.6] pointer-events-none hidden md:block" gradientFrom="#C06044" gradientTo="#2A5C3F" />
+      {/* Corner webs — desktop only */}
+      <CornerWeb className="corner-web-mobile-hide absolute top-16 -left-2 w-[28rem] h-[28rem] opacity-[0.7] pointer-events-none" gradientFrom="#2A5C3F" gradientTo="#C06044" />
+      <CornerWeb flip className="corner-web-mobile-hide absolute top-16 -right-2 w-[28rem] h-[28rem] opacity-[0.6] pointer-events-none" gradientFrom="#C06044" gradientTo="#2A5C3F" />
+      <CornerWeb flip className="corner-web-mobile-hide absolute -bottom-24 -right-24 w-[72vw] h-[72vw] opacity-[0.08] pointer-events-none" gradientFrom="#2A5C3F" gradientTo="#C06044" />
 
-      {/* Large sweeping web — hidden on mobile */}
-      <CornerWeb flip className="absolute -bottom-24 -right-24 w-[72vw] h-[72vw] opacity-[0.08] pointer-events-none hidden md:block" gradientFrom="#2A5C3F" gradientTo="#C06044" />
-
-      {/* Monstera leaves — hidden on mobile */}
-      <MonsteraLeaf className="absolute -bottom-4 -left-2 w-52 h-auto text-brand opacity-60 pointer-events-none hidden sm:block" />
-      <MonsteraLeaf className="absolute -bottom-4 -right-2 w-36 h-auto text-ember opacity-40 pointer-events-none scale-x-[-1] hidden sm:block" />
+      {/* Monstera leaves — smaller + more subtle on mobile */}
+      <MonsteraLeaf className="absolute -bottom-4 -left-2 w-28 sm:w-52 h-auto text-brand opacity-30 sm:opacity-60 pointer-events-none" />
+      <MonsteraLeaf className="absolute -bottom-4 -right-2 w-20 sm:w-36 h-auto text-ember opacity-25 sm:opacity-40 pointer-events-none scale-x-[-1]" />
 
       <div className="relative max-w-7xl mx-auto w-full px-6 lg:px-12">
         {/* Section marker */}
-        <div className="flex items-center gap-4 mb-10 md:mb-14">
+        <div className="flex items-center gap-4 mb-6 md:mb-14">
           <span className="font-display text-xs text-dust tracking-label uppercase">
             01
           </span>
@@ -602,7 +604,7 @@ function Hero() {
         </h1>
 
         {/* Wavy rule below headline */}
-        <div className="my-8 md:my-12">
+        <div className="my-5 md:my-12">
           <svg viewBox="0 0 1200 40" preserveAspectRatio="none" className="w-full h-6" aria-hidden="true">
             <path d="M0 20 C200 2,400 38,600 20 C800 2,1000 38,1200 20" stroke="#C8C2B8" strokeWidth="1.6" fill="none" strokeLinecap="round" />
           </svg>
@@ -618,7 +620,7 @@ function Hero() {
         </p>
 
         {/* Wavy bottom rule */}
-        <div className="mt-16 md:mt-24">
+        <div className="mt-8 md:mt-24">
           <svg viewBox="0 0 1200 40" preserveAspectRatio="none" className="w-full h-6" aria-hidden="true">
             <path d="M0 20 C200 2,400 38,600 20 C800 2,1000 38,1200 20" stroke="#C8C2B8" strokeWidth="1.6" fill="none" strokeLinecap="round" />
           </svg>
@@ -676,9 +678,9 @@ const services = [
 
 function Services() {
   return (
-    <section className="relative py-24 md:py-32 overflow-hidden" id="services" aria-label="What we build">
-      <CornerWeb flip className="absolute -top-4 -right-4 w-56 h-56 opacity-40 pointer-events-none hidden md:block" gradientFrom="#C06044" gradientTo="#2A5C3F" />
-      <MonsteraLeaf className="absolute -bottom-6 -right-4 w-44 h-auto text-ember opacity-30 pointer-events-none scale-x-[-1] hidden md:block" />
+    <section className="relative py-14 md:py-32 overflow-hidden" id="services" aria-label="What we build">
+      <CornerWeb flip className="corner-web-mobile-hide absolute -top-4 -right-4 w-56 h-56 opacity-40 pointer-events-none" gradientFrom="#C06044" gradientTo="#2A5C3F" />
+      <MonsteraLeaf className="absolute -bottom-6 -right-4 w-24 md:w-44 h-auto text-ember opacity-15 md:opacity-30 pointer-events-none scale-x-[-1]" />
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="flex items-center gap-4 mb-0">
           <SectionLabel>What we build</SectionLabel>
@@ -727,29 +729,29 @@ function Services() {
 function Founders() {
   return (
     <section
-      className="relative bg-ink overflow-hidden py-24 md:py-36"
+      className="relative bg-ink overflow-hidden py-14 md:py-36"
       id="about"
       aria-label="About the founders"
     >
-      {/* Orb-weave background — ghosted at low opacity */}
-      <div className="absolute inset-0 opacity-[0.07] pointer-events-none">
+      {/* Orb-weave background — desktop only, too distracting on mobile */}
+      <div className="absolute inset-0 opacity-[0.07] pointer-events-none hidden md:block">
         <OrbWeaveSVG />
       </div>
-      {/* Plants + webs on dark bg — hidden on mobile */}
-      <MonsteraLeaf className="absolute -bottom-4 -left-4 w-64 h-auto text-paper opacity-[0.08] pointer-events-none hidden md:block" />
-      <MonsteraLeaf className="absolute top-12 -right-6 w-40 h-auto text-paper opacity-[0.06] pointer-events-none scale-x-[-1] hidden md:block" />
-      <CornerWeb className="absolute -bottom-4 -right-4 w-52 h-52 opacity-20 pointer-events-none hidden md:block" gradientFrom="#F0EDE6" gradientTo="#2A5C3F" />
+      {/* Monstera — small on mobile, full size on desktop */}
+      <MonsteraLeaf className="absolute -bottom-4 -left-4 w-32 md:w-64 h-auto text-paper opacity-[0.07] md:opacity-[0.08] pointer-events-none" />
+      <MonsteraLeaf className="absolute top-12 -right-6 w-20 md:w-40 h-auto text-paper opacity-[0.05] md:opacity-[0.06] pointer-events-none scale-x-[-1]" />
+      <CornerWeb className="corner-web-mobile-hide absolute -bottom-4 -right-4 w-52 h-52 opacity-20 pointer-events-none" gradientFrom="#F0EDE6" gradientTo="#2A5C3F" />
 
       <div className="relative max-w-7xl mx-auto px-6 lg:px-12">
         {/* Section label */}
-        <div className="flex items-center gap-4 mb-12 md:mb-16">
+        <div className="flex items-center gap-4 mb-8 md:mb-16">
           <SectionLabel dark>Built by</SectionLabel>
           <div className="flex-1 overflow-hidden"><svg viewBox="0 0 400 40" preserveAspectRatio="none" className="w-full h-6" aria-hidden="true"><path d="M0 20 C67 2,133 38,200 20 C267 2,333 38,400 20" stroke="rgba(240,237,230,0.18)" strokeWidth="1.6" fill="none" strokeLinecap="round" /></svg></div>
           <NeithBreakMark dark />
         </div>
 
         {/* Pull-quote — the grid-breaking moment */}
-        <div className="lg:-mx-4 xl:-mx-12 mb-16 md:mb-20">
+        <div className="lg:-mx-4 xl:-mx-12 mb-10 md:mb-20">
           <blockquote>
             <p
               className="font-display italic font-semibold text-pullquote text-brand leading-tight"
@@ -845,9 +847,9 @@ const steps = [
 
 function Process() {
   return (
-    <section className="relative py-24 md:py-32 overflow-hidden" id="process" aria-label="How we work">
+    <section className="relative py-14 md:py-32 overflow-hidden" id="process" aria-label="How we work">
       <MonsteraLeaf className="absolute -top-8 -left-4 w-48 h-auto text-brand opacity-25 pointer-events-none hidden md:block" />
-      <CornerWeb flip className="absolute -bottom-4 -right-4 w-60 h-60 opacity-35 pointer-events-none hidden md:block" gradientFrom="#2A5C3F" gradientTo="#C06044" />
+      <CornerWeb flip className="corner-web-mobile-hide absolute -bottom-4 -right-4 w-60 h-60 opacity-35 pointer-events-none" gradientFrom="#2A5C3F" gradientTo="#C06044" />
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="flex items-center gap-4 mb-0">
           <SectionLabel>How we work</SectionLabel>
@@ -885,14 +887,14 @@ function Process() {
 function Contact() {
   return (
     <section
-      className="relative py-24 md:py-32 overflow-hidden"
+      className="relative py-14 md:py-32 overflow-hidden"
       style={{ background: '#E9E5DD' }}
       id="contact"
       aria-label="Contact"
     >
-      <MonsteraLeaf className="absolute -bottom-6 -left-4 w-72 h-auto text-brand opacity-30 pointer-events-none hidden md:block" />
-      <MonsteraLeaf className="absolute -top-6 -right-4 w-36 h-auto text-ember opacity-20 pointer-events-none scale-x-[-1] hidden md:block" />
-      <CornerWeb className="absolute -top-4 -left-4 w-48 h-48 opacity-30 pointer-events-none hidden md:block" gradientFrom="#2A5C3F" gradientTo="#C06044" />
+      <MonsteraLeaf className="absolute -bottom-6 -left-4 w-36 md:w-72 h-auto text-brand opacity-20 md:opacity-30 pointer-events-none" />
+      <MonsteraLeaf className="absolute -top-6 -right-4 w-20 md:w-36 h-auto text-ember opacity-12 md:opacity-20 pointer-events-none scale-x-[-1]" />
+      <CornerWeb className="corner-web-mobile-hide absolute -top-4 -left-4 w-48 h-48 opacity-30 pointer-events-none" gradientFrom="#2A5C3F" gradientTo="#C06044" />
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         {/* Section header */}
         <div className="flex items-center gap-4 mb-12 md:mb-16">
@@ -928,7 +930,7 @@ function Footer() {
   return (
     <footer className="relative bg-ink py-12 md:py-16 overflow-hidden" aria-label="Footer">
       <MonsteraLeaf className="absolute -bottom-4 -right-4 w-44 h-auto text-paper opacity-[0.07] pointer-events-none scale-x-[-1] hidden md:block" />
-      <CornerWeb className="absolute -top-2 -left-2 w-36 h-36 opacity-15 pointer-events-none hidden md:block" gradientFrom="#F0EDE6" gradientTo="#2A5C3F" />
+      <CornerWeb className="corner-web-mobile-hide absolute -top-2 -left-2 w-36 h-36 opacity-15 pointer-events-none" gradientFrom="#F0EDE6" gradientTo="#2A5C3F" />
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           {/* Logo + wordmark (white version) */}

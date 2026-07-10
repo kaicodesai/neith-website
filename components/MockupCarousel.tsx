@@ -425,7 +425,7 @@ export default function MockupCarousel() {
   const next = () => setIdx(i => (i + 1) % SLIDES.length)
 
   return (
-    <section className="py-24 bg-paper">
+    <section className="py-12 md:py-24 bg-paper">
       <div className="max-w-5xl mx-auto px-6 lg:px-12">
         {/* Label */}
         <div className="flex items-center gap-3 mb-10">
