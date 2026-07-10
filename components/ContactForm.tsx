@@ -2,8 +2,6 @@
 
 import { useState } from 'react'
 
-// Get your free key: go to web3forms.com, enter nicolasasoul@gmail.com, check your inbox.
-const WEB3FORMS_KEY = 'YOUR_WEB3FORMS_KEY'
 const CALENDLY_URL = 'https://calendly.com/nicolasasoul'
 
 type Status = 'idle' | 'sending' | 'sent' | 'error'
@@ -27,15 +25,13 @@ export default function ContactForm() {
     setStatus('sending')
 
     try {
-      const res = await fetch('https://api.web3forms.com/submit', {
+      const res = await fetch('/api/contact', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          access_key: WEB3FORMS_KEY,
           name: formData.name,
           email: formData.email,
           message: formData.process,
-          subject: `New inquiry from ${formData.name} — Neith AI`,
         }),
       })
 
